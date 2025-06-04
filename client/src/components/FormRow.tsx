@@ -1,0 +1,35 @@
+type Props = {
+  type: React.HTMLInputTypeAttribute;
+  label: string;
+  id: string;
+  defaultValue?: string;
+  name?: string;
+  required?: boolean;
+};
+
+const FormRow: React.FC<Props> = ({
+  type,
+  label,
+  id,
+  name,
+  defaultValue = '',
+  required,
+}) => {
+  return (
+    <div className='form-row'>
+      <label htmlFor={id} className='form-label'>
+        {label}
+      </label>
+      <input
+        type={type}
+        className='form-input'
+        id={id}
+        name={name}
+        required={required}
+        defaultValue={defaultValue}
+      />
+    </div>
+  );
+};
+
+export default FormRow;
