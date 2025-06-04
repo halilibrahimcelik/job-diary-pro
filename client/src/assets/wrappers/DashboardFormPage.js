@@ -23,6 +23,7 @@ const Wrapper = styled.section`
     display: grid;
     row-gap: 1rem;
   }
+
   .form-btn {
     align-self: end;
     margin-top: 1rem;
