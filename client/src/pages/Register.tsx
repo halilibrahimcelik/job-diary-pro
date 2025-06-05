@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import Wrapper from '../assets/wrappers/RegisterAndLoginPage';
 import { Logo } from '../components';
 import FormRow from '../components/FormRow';
+import { ROUTES_PATHS } from '../constants';
 const Register = () => {
   return (
     <Wrapper>
@@ -57,7 +58,7 @@ const Register = () => {
         <hr className='mt-2 mb-2' />
         <p>
           Already a member?{' '}
-          <Link to='/login' className='member-btn'>
+          <Link to={ROUTES_PATHS.LOGIN} className='member-btn'>
             Login
           </Link>
         </p>
