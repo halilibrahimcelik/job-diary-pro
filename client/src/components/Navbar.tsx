@@ -2,6 +2,8 @@ import Wrapper from '../assets/wrappers/Navbar';
 import { FaAlignLeft } from 'react-icons/fa';
 import Logo from './Logo';
 import { useDashboard } from '../hooks/useDashboard';
+import LogoutContainer from './LogoutContainer';
+import ThemeToggle from './ThemeToggle';
 const Navbar: React.FC = () => {
   const { toggleSidebar } = useDashboard();
 
@@ -15,7 +17,10 @@ const Navbar: React.FC = () => {
           <Logo />
           <h4 className='logo-text'>Dashboard</h4>
         </div>
-        <div className='btn-container'>toggle/Logout</div>{' '}
+        <div className='btn-container'>
+          <ThemeToggle />
+          <LogoutContainer />
+        </div>{' '}
       </div>
     </Wrapper>
   );

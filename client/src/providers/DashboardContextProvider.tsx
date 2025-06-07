@@ -1,4 +1,4 @@
-import { createContext, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 
 type InitialStateType = {
   user: null | { name: string };
@@ -31,8 +31,17 @@ const DashboardProvider = ({ children }: Props) => {
     name: 'Halil',
   };
 
+  useEffect(() => {
+    const darkMode = localStorage.getItem('darkMode');
+    if (darkMode) {
+      setIsDarkMode(darkMode === 'true');
+      document.body.classList.toggle('dark-theme', darkMode === 'true');
+    }
+  }, []);
   const toggleDarkMode = () => {
     setIsDarkMode(!isDarkMode);
+    document.body.classList.toggle('dark-theme', !isDarkMode);
+    localStorage.setItem('darkMode', (!isDarkMode).toString());
   };
   const toggleSidebar = () => {
     setShowSidebar(!showSidebar);

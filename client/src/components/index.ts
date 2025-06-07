@@ -3,3 +3,5 @@ export { default as BigSideBar } from './BigSideBar';
 export { default as SmallSideBar } from './SmallSideBar';
 export { default as Navbar } from './Navbar';
 export { default as Navlinks } from './Navlinks';
+export { default as LogoutContainer } from './LogoutContainer';
+export { default as FormRow } from './FormRow';
