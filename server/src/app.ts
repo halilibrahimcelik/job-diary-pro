@@ -1,38 +1,9 @@
 import express, { NextFunction, Request, Response } from 'express';
 import morgan from 'morgan';
 import * as dotenv from 'dotenv';
-import { nanoid } from 'nanoid';
 import JobsRouter from './routes/jobsRoute.js';
-export const jobs = [
-  {
-    id: nanoid(),
-    position: 'Software Engineer',
-    company: 'Tech Corp',
-    location: 'New York',
-    salary: 120000,
-  },
-  {
-    id: nanoid(),
-    position: 'Data Scientist',
-    company: 'Data Inc',
-    location: 'San Francisco',
-    salary: 130000,
-  },
-  {
-    id: '122',
-    position: 'UX Designer',
-    company: 'Design Studio',
-    location: 'Los Angeles',
-    salary: 110000,
-  },
-  {
-    id: nanoid(),
-    position: 'Product Manager',
-    company: 'Innovate Ltd',
-    location: 'Austin',
-    salary: 140000,
-  },
-];
+import mongoose from 'mongoose';
+
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -51,10 +22,19 @@ app.use('*', (req, res, next) => {
 });
 //handling error middleware
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+  console.log(err);
   res.status(500).json({
     message: 'Something went wrong!',
   });
 });
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+
+try {
+  await mongoose.connect(process.env.MONGO_URL!);
+
+  app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+  });
+} catch (error) {
+  console.log(error);
+  process.exit(1);
+}
