@@ -1,5 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { IJob, Job } from '../models/JobModel.js';
+import { StatusCodes } from 'http-status-codes';
+import { NotFoundError } from '../errors/customErrors.js';
 export const getAllJobs = async (
   req: Request,
   res: Response,
@@ -7,7 +9,7 @@ export const getAllJobs = async (
 ) => {
   try {
     const jobs = await Job.find();
-    res.status(200).json({
+    res.status(StatusCodes.OK).json({
       message: 'Data send successfully!!',
       data: jobs,
     });
@@ -25,7 +27,7 @@ export const createJob = async (
       req.body as IJob;
 
     if (!company || !position) {
-      res.status(400).json({
+      res.status(StatusCodes.BAD_REQUEST).json({
         message: 'Data is missing',
       });
       return;
@@ -37,7 +39,7 @@ export const createJob = async (
     });
 
     await newJob.save();
-    res.status(201).json({
+    res.status(StatusCodes.CREATED).json({
       message: 'Job has been created!',
       data: newJob,
     });
@@ -55,18 +57,12 @@ export const getSingleJob = async (
 ) => {
   try {
     const jobId = req.params.jobId;
-    if (!jobId) {
-      return res.status(404).json({
-        message: 'No Job Found',
-      });
-    }
+
     const selectedJob = await Job.findById(jobId).exec();
     if (!selectedJob) {
-      return res.status(404).json({
-        message: 'No Job Found',
-      });
+      throw new NotFoundError(`No job found with ID ${jobId}`);
     }
-    res.status(200).json({
+    res.status(StatusCodes.OK).json({
       message: 'Data fetched succesfully',
       data: selectedJob,
     });
@@ -83,21 +79,13 @@ export const editSingleJob = async (
   try {
     const jobId = req.params.jobId;
     // const { company, location, position, salary } = req.body as IJob;
-    if (!jobId) {
-      res.status(404).json({
-        message: 'No Job Found',
-      });
-      return;
-    }
+
     const job = await Job.findByIdAndUpdate(jobId, req.body, { new: true });
     if (!job) {
-      res.status(404).json({
-        message: 'No Job Found in the database ',
-      });
-      return;
+      throw new NotFoundError(`No job found with ID ${jobId}`);
     }
 
-    res.status(201).json({
+    res.status(StatusCodes.CREATED).json({
       message: 'Your job with ID  ' + jobId + ' successfully edited',
       data: job,
     });
@@ -114,23 +102,14 @@ export const deletesingleJob = async (
   try {
     const { jobId } = req.params;
 
-    if (!jobId) {
-      res.status(404).json({
-        message: 'No Job Found',
-      });
-      return;
-    }
     const jobIndex = await Job.findById(jobId);
     if (!jobIndex) {
-      res.status(404).json({
-        message: 'No job position found with ID ' + jobId,
-      });
-      return;
+      throw new NotFoundError(`No job found with ID ${jobId}`);
     }
 
     await Job.deleteOne({ _id: jobId });
 
-    res.status(201).json({
+    res.status(StatusCodes.CREATED).json({
       message: 'Job has been removed from the list',
     });
   } catch (error) {
