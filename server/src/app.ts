@@ -7,12 +7,15 @@ import mongoose from 'mongoose';
 import { StatusCodes } from 'http-status-codes';
 import { errorHandlerMiddleware } from './middleware/ErrorHandler.js';
 import { validateTest } from './middleware/validationMiddleware.js';
+import { authenticateUser } from './middleware/authMiddleware.js';
+import cookieParser from 'cookie-parser';
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 8080;
 
 //Adding middlewares
 app.use(express.json());
+app.use(cookieParser());
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
@@ -24,7 +27,7 @@ app.post('/api/v1/test', validateTest, (req: Request, res: Response) => {
   });
 });
 
-app.use('/api/v1/jobs', JobsRouter);
+app.use('/api/v1/jobs', authenticateUser, JobsRouter);
 app.use('/api/v1/auth', UserRouter);
 app.use('*', (req, res, next) => {
   res.status(StatusCodes.NOT_FOUND).json({

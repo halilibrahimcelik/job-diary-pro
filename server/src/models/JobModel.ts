@@ -1,4 +1,4 @@
-import { Schema, model } from 'mongoose';
+import mongoose, { Schema, model } from 'mongoose';
 import { JobStatus, JobType } from '../types/index.js';
 
 export interface IJob {
@@ -9,6 +9,7 @@ export interface IJob {
   jobStatus: JobStatus.INTERVİEW | JobStatus.DECLINED | JobStatus.PENDING;
   jobType: JobType.FULL_TIME | JobType.PART_TIME | JobType.INTERSHIP;
   jobLocation: string;
+  createdBy: any;
 }
 
 const JobSchema = new Schema<IJob>(
@@ -38,6 +39,10 @@ const JobSchema = new Schema<IJob>(
     jobLocation: {
       type: String,
       default: 'my city',
+    },
+    createdBy: {
+      type: mongoose.Types.ObjectId,
+      ref: 'User',
     },
   },
   {

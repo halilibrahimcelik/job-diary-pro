@@ -6,6 +6,7 @@ import {
   BadRequestError,
   UnauthenticatedError,
 } from '../errors/customErrors.js';
+import { createJWT } from '../utils/tokenUtils.js';
 
 export const registerUser = async (
   req: Request,
@@ -56,6 +57,16 @@ export const loginUser = async (
       isUserExist.password
     );
     if (isPasswordMatched) {
+      const token = createJWT({
+        userId: isUserExist._id.toString(),
+        role: isUserExist.role,
+      });
+      const oneDay = 1000 * 60 * 60 * 24;
+      res.cookie('token', token, {
+        httpOnly: true,
+        expires: new Date(Date.now() + oneDay),
+        secure: process.env.NODE_ENV === 'production',
+      });
       res.status(StatusCodes.OK).json({
         message: 'You successfully logged In',
       });

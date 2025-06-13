@@ -7,6 +7,8 @@ export const getAllJobs = async (
   next: NextFunction
 ) => {
   try {
+    const user = req.user;
+    console.log(user);
     const jobs = await Job.find();
     res.status(StatusCodes.OK).json({
       message: 'Data send successfully!!',
