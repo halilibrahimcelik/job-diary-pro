@@ -1,12 +1,13 @@
 import { Schema, model } from 'mongoose';
+import { JobStatus, JobType } from '../types/index.js';
 
 export interface IJob {
   position: string;
   company: string;
   location?: string;
   salary?: number;
-  jobStatus: 'interview' | 'declined' | 'pending';
-  jobType: 'full-time' | 'part-time' | 'intership';
+  jobStatus: JobStatus.INTERVİEW | JobStatus.DECLINED | JobStatus.PENDING;
+  jobType: JobType.FULL_TIME | JobType.PART_TIME | JobType.INTERSHIP;
   jobLocation: string;
 }
 
@@ -26,13 +27,13 @@ const JobSchema = new Schema<IJob>(
     },
     jobStatus: {
       type: String,
-      enum: ['interview', 'declined', 'pending'],
-      default: 'pending',
+      enum: [JobStatus.INTERVİEW, JobStatus.DECLINED, JobStatus.PENDING],
+      default: JobStatus.PENDING,
     },
     jobType: {
       type: String,
-      enum: ['full-time', 'part-time', 'intership'],
-      default: 'full-time',
+      enum: [JobType.FULL_TIME, JobType.PART_TIME, JobType.INTERSHIP],
+      default: JobType.FULL_TIME,
     },
     jobLocation: {
       type: String,

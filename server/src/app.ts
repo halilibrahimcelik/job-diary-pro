@@ -5,7 +5,7 @@ import JobsRouter from './routes/jobsRoute.js';
 import mongoose from 'mongoose';
 import { StatusCodes } from 'http-status-codes';
 import { errorHandlerMiddleware } from './middleware/ErrorHandler.js';
-
+import { validateTest } from './middleware/validationMiddleware.js';
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -15,6 +15,13 @@ app.use(express.json());
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
+
+app.post('/api/v1/test', validateTest, (req: Request, res: Response) => {
+  const { name } = req.body;
+  res.json({
+    message: `Hello ${name}`,
+  });
+});
 
 app.use('/api/v1/jobs', JobsRouter);
 app.use('*', (req, res, next) => {
