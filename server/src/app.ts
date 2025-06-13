@@ -25,7 +25,7 @@ app.post('/api/v1/test', validateTest, (req: Request, res: Response) => {
 });
 
 app.use('/api/v1/jobs', JobsRouter);
-app.use('/api/v1/user', UserRouter);
+app.use('/api/v1/auth', UserRouter);
 app.use('*', (req, res, next) => {
   res.status(StatusCodes.NOT_FOUND).json({
     message: 'Not Found :/',

@@ -101,3 +101,18 @@ export const validateUserRegistration = withValidationErrors([
     .isLength({ min: 4 })
     .withMessage('You Password should be at least 4 char'),
 ]);
+export const validateUserLogin = withValidationErrors([
+  body('email')
+    .trim()
+    .notEmpty()
+    .withMessage('Email is Required')
+    .isEmail()
+    .withMessage('Please write a valid email address'),
+
+  body('password')
+    .trim()
+    .notEmpty()
+    .withMessage('Password is Required')
+    .isLength({ min: 4 })
+    .withMessage('You Password should be at least 4 char'),
+]);
