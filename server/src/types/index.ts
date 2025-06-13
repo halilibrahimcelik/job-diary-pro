@@ -1,10 +1,3 @@
-export interface Job {
-  id: string;
-  position: string;
-  company: string;
-  location: string;
-  salary: number;
-}
 export enum JobType {
   FULL_TIME = 'full-time',
   PART_TIME = 'part-time',
@@ -14,4 +7,11 @@ export enum JobStatus {
   INTERVİEW = 'interview',
   DECLINED = 'declined',
   PENDING = 'pending',
+}
+
+export enum JOB_SORT_BY {
+  NEWEST_FIRST = 'newest',
+  OLDEST_FIRST = 'oldest',
+  ASCENDING = 'a-z',
+  DESCENDING = 'z-a',
 }

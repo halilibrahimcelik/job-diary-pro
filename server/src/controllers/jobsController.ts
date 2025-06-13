@@ -1,7 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { IJob, Job } from '../models/JobModel.js';
 import { StatusCodes } from 'http-status-codes';
-import { NotFoundError } from '../errors/customErrors.js';
 export const getAllJobs = async (
   req: Request,
   res: Response,
@@ -25,13 +24,6 @@ export const createJob = async (
   try {
     const { company, location, position, salary, jobLocation } =
       req.body as IJob;
-
-    if (!company || !position) {
-      res.status(StatusCodes.BAD_REQUEST).json({
-        message: 'Data is missing',
-      });
-      return;
-    }
 
     const newJob = new Job({
       company,
@@ -59,9 +51,7 @@ export const getSingleJob = async (
     const jobId = req.params.jobId;
 
     const selectedJob = await Job.findById(jobId).exec();
-    if (!selectedJob) {
-      throw new NotFoundError(`No job found with ID ${jobId}`);
-    }
+
     res.status(StatusCodes.OK).json({
       message: 'Data fetched succesfully',
       data: selectedJob,
@@ -78,12 +68,7 @@ export const editSingleJob = async (
 ) => {
   try {
     const jobId = req.params.jobId;
-    // const { company, location, position, salary } = req.body as IJob;
-
     const job = await Job.findByIdAndUpdate(jobId, req.body, { new: true });
-    if (!job) {
-      throw new NotFoundError(`No job found with ID ${jobId}`);
-    }
 
     res.status(StatusCodes.CREATED).json({
       message: 'Your job with ID  ' + jobId + ' successfully edited',
@@ -101,11 +86,6 @@ export const deletesingleJob = async (
 ) => {
   try {
     const { jobId } = req.params;
-
-    const jobIndex = await Job.findById(jobId);
-    if (!jobIndex) {
-      throw new NotFoundError(`No job found with ID ${jobId}`);
-    }
 
     await Job.deleteOne({ _id: jobId });
 

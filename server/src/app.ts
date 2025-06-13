@@ -2,6 +2,7 @@ import express, { NextFunction, Request, Response } from 'express';
 import morgan from 'morgan';
 import * as dotenv from 'dotenv';
 import JobsRouter from './routes/jobsRoute.js';
+import UserRouter from './routes/userRoute.js';
 import mongoose from 'mongoose';
 import { StatusCodes } from 'http-status-codes';
 import { errorHandlerMiddleware } from './middleware/ErrorHandler.js';
@@ -24,6 +25,7 @@ app.post('/api/v1/test', validateTest, (req: Request, res: Response) => {
 });
 
 app.use('/api/v1/jobs', JobsRouter);
+app.use('/api/v1/user', UserRouter);
 app.use('*', (req, res, next) => {
   res.status(StatusCodes.NOT_FOUND).json({
     message: 'Not Found :/',
