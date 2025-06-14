@@ -13,7 +13,6 @@ import {
   Admin,
 } from './pages';
 import { ROUTES_PATHS } from './constants';
-import { useEffect } from 'react';
 const router = createBrowserRouter([
   {
     element: <HomeLayout />,
@@ -66,18 +65,6 @@ const router = createBrowserRouter([
   },
 ]);
 const App = () => {
-  useEffect(() => {
-    fetch('http://localhost:8080/api/v1/test', {
-      method: 'POST',
-      body: JSON.stringify({ name: 'John Doe' }),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => console.log(data))
-      .catch((err) => console.error('Error:', err));
-  }, []);
   return <RouterProvider router={router} />;
 };
 export default App;
