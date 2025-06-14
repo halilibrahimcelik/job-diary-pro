@@ -8,8 +8,7 @@ export const getAllJobs = async (
 ) => {
   try {
     const user = req.user;
-    console.log(user);
-    const jobs = await Job.find();
+    const jobs = await Job.find({ createdBy: user?.userId });
     res.status(StatusCodes.OK).json({
       message: 'Data send successfully!!',
       data: jobs,
@@ -30,6 +29,10 @@ export const createJob = async (
     const newJob = new Job({
       company,
       position,
+      location,
+      salary,
+      jobLocation,
+      createdBy: req.user?.userId,
     });
 
     await newJob.save();

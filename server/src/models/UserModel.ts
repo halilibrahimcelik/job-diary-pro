@@ -34,4 +34,9 @@ const UserSchema = new Schema<IUser>(
   }
 );
 
+UserSchema.methods.toJSON = function () {
+  let obj = this.toObject();
+  delete obj.password;
+  return obj;
+};
 export const User = model<IUser>('User', UserSchema);

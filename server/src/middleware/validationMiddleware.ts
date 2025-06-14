@@ -1,10 +1,16 @@
 import { body, param, validationResult } from 'express-validator';
-import { BadRequestError, NotFoundError } from '../errors/customErrors.js';
+import {
+  BadRequestError,
+  ForbiddenError,
+  NotFoundError,
+  UnauthenticatedError,
+} from '../errors/customErrors.js';
 import { NextFunction, Request, Response } from 'express';
 import { JobStatus, JobType } from '../types/index.js';
 import { isValidObjectId } from 'mongoose';
 import mongoose from 'mongoose';
 import { Job } from '../models/JobModel.js';
+import { User } from '../models/UserModel.js';
 const withValidationErrors = (validateValues: any) => {
   return [
     validateValues,
@@ -14,6 +20,8 @@ const withValidationErrors = (validateValues: any) => {
         const message = errors.array()[0].msg as string;
         if (message.startsWith('No job')) {
           throw new NotFoundError(message);
+        } else if (message.startsWith('You are not authorized!')) {
+          throw new ForbiddenError(message);
         } else {
           throw new BadRequestError(message);
         }
@@ -75,12 +83,20 @@ export const validateEditJob = withValidationErrors([
 ]);
 
 export const validateIdParam = withValidationErrors([
-  param('jobId').custom(async (value) => {
+  param('jobId').custom(async (value, { req }) => {
+    const userId = req.user.userId;
+    const role = req.user.role;
     const isValid = mongoose.Types.ObjectId.isValid(value);
     if (!isValid) throw new BadRequestError('Invalid MongoDB ID');
     const job = await Job.findById(value);
     if (!job) {
       throw new NotFoundError(`No job found with ID ${value}`);
+    }
+    const isAdmin = role === 'admin';
+    const isOwner = job.createdBy.toString() === userId;
+    console.log(isOwner);
+    if (!isAdmin && !isOwner) {
+      throw new ForbiddenError('You are not authorized!');
     }
   }),
 ]);
@@ -115,4 +131,22 @@ export const validateUserLogin = withValidationErrors([
     .withMessage('Password is Required')
     .isLength({ min: 4 })
     .withMessage('You Password should be at least 4 char'),
+]);
+
+export const validateUpdateUser = withValidationErrors([
+  body('name').trim().notEmpty().withMessage('Name is Required'),
+  body('email')
+    .trim()
+    .notEmpty()
+    .withMessage('Email is Required')
+    .isEmail()
+    .withMessage('Please write a valid email address')
+    .custom(async (email, { req }) => {
+      const user = await User.findOne({ email });
+      if (user && user._id.toString() !== req.user.userId) {
+        throw new BadRequestError('Email already exist');
+      }
+    }),
+  body('lastName').trim().notEmpty().withMessage('Last Name is Required'),
+  body('location').notEmpty().withMessage('Location is required'),
 ]);

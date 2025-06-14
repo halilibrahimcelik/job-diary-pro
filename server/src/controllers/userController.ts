@@ -1,81 +1,46 @@
-import { NextFunction, Request, Response } from 'express';
-import { IUser, User } from '../models/UserModel.js';
 import { StatusCodes } from 'http-status-codes';
-import bcrypt from 'bcryptjs';
-import {
-  BadRequestError,
-  UnauthenticatedError,
-} from '../errors/customErrors.js';
-import { createJWT } from '../utils/tokenUtils.js';
+import { User } from '../models/UserModel.js';
+import { Job } from '../models/JobModel.js';
+import { Request, Response, NextFunction } from 'express';
 
-export const registerUser = async (
+export const getCurrentUser = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  const { password, email, lastName, location, name, role } = req.body as IUser;
   try {
-    const isFirstAccount = (await User.count()) === 0;
-    const isUserExist = await User.findOne({ email });
-    if (isUserExist) {
-      throw new BadRequestError('Email is already taken!');
-    }
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
-    const user = {
-      password: hashedPassword,
-      email,
-      lastName,
-      location,
-      name,
-      role: isFirstAccount ? 'admin' : 'user',
-    };
-    const newUser = new User(user);
-    await newUser.save();
-    res.status(StatusCodes.CREATED).json({
-      message: 'User has been created succesfully!',
-      data: newUser,
+    const user = await User.findById(req.user?.userId);
+    const userWithoutPassword = user?.toJSON();
+    res.status(StatusCodes.OK).json({
+      message: 'get current user',
+      data: userWithoutPassword,
     });
   } catch (error) {
     next(error);
   }
 };
-
-export const loginUser = async (
+export const getApplicationStats = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  try {
-    const { password, email } = req.body as IUser;
-    const isUserExist = await User.findOne({ email });
-    if (!isUserExist) {
-      throw new UnauthenticatedError('There is no user found with that  email');
-    }
-    const isPasswordMatched = await bcrypt.compare(
-      password,
-      isUserExist.password
-    );
-    if (isPasswordMatched) {
-      const token = createJWT({
-        userId: isUserExist._id.toString(),
-        role: isUserExist.role,
-      });
-      const oneDay = 1000 * 60 * 60 * 24;
-      res.cookie('token', token, {
-        httpOnly: true,
-        expires: new Date(Date.now() + oneDay),
-        secure: process.env.NODE_ENV === 'production',
-      });
-      res.status(StatusCodes.OK).json({
-        message: 'You successfully logged In',
-      });
-    } else {
-      throw new UnauthenticatedError(
-        'Your credentials are not correct please try again.'
-      );
-    }
-  } catch (error) {
-    next(error);
-  }
+  const users = await User.countDocuments();
+  const jobs = await Job.countDocuments();
+  res.status(StatusCodes.OK).json({
+    message: 'application stats',
+    users,
+    jobs,
+  });
+};
+export const updateUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  let obj = { ...req.body };
+  delete obj.password;
+  await User.findByIdAndUpdate(req.user?.userId, obj);
+  res.status(StatusCodes.OK).json({
+    message: 'update User',
+  });
 };

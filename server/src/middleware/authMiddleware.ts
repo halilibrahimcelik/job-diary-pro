@@ -1,5 +1,8 @@
 import { NextFunction, Response, Request } from 'express';
-import { UnauthenticatedError } from '../errors/customErrors.js';
+import {
+  ForbiddenError,
+  UnauthenticatedError,
+} from '../errors/customErrors.js';
 import { verifyJWT } from '../utils/tokenUtils.js';
 
 export const authenticateUser = (
@@ -19,4 +22,14 @@ export const authenticateUser = (
   } catch (error) {
     throw new UnauthenticatedError('authentication error no token found');
   }
+};
+
+export const authorizedPermissions = (...roles: any) => {
+  return (req: Request, res: Response, next: NextFunction) => {
+    console.log(roles);
+    if (!roles.includes(req.user?.role)) {
+      throw new ForbiddenError('Unauthorized to access this feature');
+    }
+    next();
+  };
 };
