@@ -13,6 +13,7 @@ import {
   Admin,
 } from './pages';
 import { ROUTES_PATHS } from './constants';
+import { registerAction } from './pages/Register';
 const router = createBrowserRouter([
   {
     element: <HomeLayout />,
@@ -26,6 +27,7 @@ const router = createBrowserRouter([
       {
         path: ROUTES_PATHS.REGISTER,
         element: <Register />,
+        action: registerAction,
       },
       {
         path: ROUTES_PATHS.LOGIN,

@@ -9,7 +9,7 @@ type ErrorType = {
 };
 const Error = () => {
   const error = useRouteError() as ErrorType;
-  console.log(error.status);
+  console.log(error);
   if (error.status === 404) {
     return (
       <Wrapper>
