@@ -13,7 +13,11 @@ import {
   Admin,
 } from './pages';
 import { ROUTES_PATHS } from './constants';
-import { registerAction } from './pages/Register';
+import { loginAction, registerAction } from './api/actions';
+import { Toaster } from 'sonner';
+import { useDashboard } from './hooks/useDashboard';
+import { DashboardLoader } from './pages/DashboardLayout';
+
 const router = createBrowserRouter([
   {
     element: <HomeLayout />,
@@ -32,10 +36,13 @@ const router = createBrowserRouter([
       {
         path: ROUTES_PATHS.LOGIN,
         element: <Login />,
+        action: loginAction,
       },
       {
         path: ROUTES_PATHS.DASHBOARD,
         element: <DashboardLayout />,
+        HydrateFallback: () => null,
+        loader: DashboardLoader,
         children: [
           {
             index: true,
@@ -67,6 +74,23 @@ const router = createBrowserRouter([
   },
 ]);
 const App = () => {
-  return <RouterProvider router={router} />;
+  const { isDarkMode } = useDashboard();
+  return (
+    <>
+      <RouterProvider router={router} />
+      <Toaster
+        closeButton
+        visibleToasts={2}
+        position='top-right'
+        richColors
+        theme={isDarkMode ? 'dark' : 'light'}
+        swipeDirections={['bottom']}
+        toastOptions={{
+          duration: 3000,
+          style: {},
+        }}
+      />
+    </>
+  );
 };
 export default App;

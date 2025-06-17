@@ -1,13 +1,15 @@
-import { Link } from 'react-router-dom';
+import { Form, Link, useNavigation } from 'react-router-dom';
 import Wrapper from '../assets/wrappers/RegisterAndLoginPage';
 import { Logo } from '../components';
 import FormRow from '../components/FormRow';
 import { ROUTES_PATHS } from '../constants';
 
 const Login = () => {
+  const { state } = useNavigation();
+
   return (
     <Wrapper>
-      <form className='form'>
+      <Form method='POST' className='form'>
         <Logo />
         <h4>Login</h4>
         <FormRow
@@ -24,19 +26,23 @@ const Login = () => {
           label='Password'
           defaultValue='secret'
         />
-        <button type='submit' className='btn btn-block'>
-          Login
+        <button
+          type='submit'
+          disabled={state === 'submitting'}
+          className='btn btn-block'
+        >
+          {state === 'submitting' ? 'Logging..' : 'Login'}
         </button>
         <button type='button' className='btn btn-block'>
           explore the app
         </button>
         <p>
           Already a member?{' '}
-          <Link to={ROUTES_PATHS.REGISTER} className='member-btn'>
+          <Link to={'/' + ROUTES_PATHS.REGISTER} className='member-btn'>
             Register
           </Link>
         </p>
-      </form>
+      </Form>
     </Wrapper>
   );
 };

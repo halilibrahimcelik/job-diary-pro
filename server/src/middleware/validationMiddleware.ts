@@ -7,7 +7,6 @@ import {
 } from '../errors/customErrors.js';
 import { NextFunction, Request, Response } from 'express';
 import { JobStatus, JobType } from '../types/index.js';
-import { isValidObjectId } from 'mongoose';
 import mongoose from 'mongoose';
 import { Job } from '../models/JobModel.js';
 import { User } from '../models/UserModel.js';

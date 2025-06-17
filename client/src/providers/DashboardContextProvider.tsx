@@ -1,7 +1,6 @@
 import { createContext, useEffect, useState } from 'react';
 
 type InitialStateType = {
-  user: null | { name: string };
   showSidebar: boolean;
   isDarkMode: boolean;
   toggleDarkMode: () => void;
@@ -9,7 +8,6 @@ type InitialStateType = {
   logoutUser: () => Promise<void>;
 };
 const initialState: InitialStateType = {
-  user: null,
   showSidebar: false,
   isDarkMode: false,
   toggleDarkMode: () => {},
@@ -27,9 +25,6 @@ type Props = {
 const DashboardProvider = ({ children }: Props) => {
   const [showSidebar, setShowSidebar] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
-  const user = {
-    name: 'Halil',
-  };
 
   useEffect(() => {
     const darkMode = localStorage.getItem('darkMode');
@@ -52,7 +47,6 @@ const DashboardProvider = ({ children }: Props) => {
   const value = {
     showSidebar,
     isDarkMode,
-    user,
     toggleDarkMode,
     toggleSidebar,
     logoutUser,

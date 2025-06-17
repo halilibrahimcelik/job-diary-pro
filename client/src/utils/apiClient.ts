@@ -11,6 +11,7 @@ class ApiService {
   constructor(baseURL: string) {
     this.axiosInstance = axios.create({
       baseURL,
+      withCredentials: true,
     });
     this.initializeInterceptors();
   }
@@ -18,6 +19,7 @@ class ApiService {
     //Request interceptor
     this.axiosInstance.interceptors.request.use(
       function (config: InternalAxiosRequestConfig) {
+        console.log(config);
         return config;
       },
       function (error: AxiosError) {
@@ -28,12 +30,11 @@ class ApiService {
 
     axios.interceptors.response.use(
       function (response: AxiosResponse) {
-        // Any status code that lie within the range of 2xx cause this function to trigger
         // Do something with response data
+        console.log(response);
         return response;
       },
       function (error) {
-        // Any status codes that falls outside the range of 2xx cause this function to trigger
         // Do something with response error
         return Promise.reject(error);
       }
@@ -71,9 +72,3 @@ class ApiService {
   }
 }
 export default ApiService;
-
-// const apiClient = axios.create({
-//   baseURL: 'http://localhost:8080/api/v1',
-// });
-
-// export default apiClient;
