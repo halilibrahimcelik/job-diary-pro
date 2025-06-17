@@ -1,10 +1,11 @@
-import { Outlet, redirect } from 'react-router-dom';
+import { Outlet, redirect, useLoaderData } from 'react-router-dom';
 import Wrapper from '../assets/wrappers/Dashboard';
 import { BigSideBar, Navbar, SmallSideBar } from '../components';
 import { AxiosError } from 'axios';
 import { apiService } from '../api/actions';
 import type { UserResponse } from '../types';
 import { toast } from 'sonner';
+import DashboardProvider from '../providers/DashboardContextProvider';
 
 //loader fun allows you get the data before even page loaded.
 export const DashboardLoader = async () => {
@@ -21,19 +22,22 @@ export const DashboardLoader = async () => {
   }
 };
 const DashboardLayout = () => {
+  const user = useLoaderData<UserResponse>();
   return (
-    <Wrapper>
-      <main className='dashboard'>
-        <SmallSideBar />
-        <BigSideBar />
-        <div>
-          <Navbar />
-          <div className='dashboard-page'>
-            <Outlet />
+    <DashboardProvider>
+      <Wrapper>
+        <main className='dashboard'>
+          <SmallSideBar />
+          <BigSideBar />
+          <div>
+            <Navbar />
+            <div className='dashboard-page'>
+              <Outlet context={user} />
+            </div>
           </div>
-        </div>
-      </main>
-    </Wrapper>
+        </main>
+      </Wrapper>
+    </DashboardProvider>
   );
 };
 export default DashboardLayout;

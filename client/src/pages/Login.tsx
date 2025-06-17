@@ -17,14 +17,14 @@ const Login = () => {
           name='email'
           id='email'
           label='Email'
-          defaultValue='john@test.com'
+          defaultValue='john.doe@example.com'
         />
         <FormRow
           type='password'
           name='password'
           id='password'
           label='Password'
-          defaultValue='secret'
+          defaultValue='JohnDoe123!'
         />
         <button
           type='submit'

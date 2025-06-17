@@ -1,4 +1,8 @@
+import { AxiosError } from 'axios';
 import { createContext, useEffect, useState } from 'react';
+import { apiService } from '../api/actions';
+import { useNavigate } from 'react-router-dom';
+import { ROUTES_PATHS } from '../constants';
 
 type InitialStateType = {
   showSidebar: boolean;
@@ -25,7 +29,7 @@ type Props = {
 const DashboardProvider = ({ children }: Props) => {
   const [showSidebar, setShowSidebar] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
-
+  const navigate = useNavigate();
   useEffect(() => {
     const darkMode = localStorage.getItem('darkMode');
     if (darkMode) {
@@ -42,7 +46,17 @@ const DashboardProvider = ({ children }: Props) => {
     setShowSidebar(!showSidebar);
   };
   const logoutUser = async () => {
-    console.log('Logout user');
+    try {
+      const response = await apiService.get('/auth/logout');
+      console.log(response);
+      if (response.status === 200) {
+        return navigate('/' + ROUTES_PATHS.LOGIN);
+      }
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        return error.response?.data.message;
+      }
+    }
   };
   const value = {
     showSidebar,
