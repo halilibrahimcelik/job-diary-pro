@@ -13,3 +13,19 @@ export type UserResponse = {
 
 export type JobStatus = 'pending' | 'interview' | 'declined';
 export type JobType = 'full-time' | 'part-time' | 'internship';
+
+export interface IJob {
+  company: string;
+  position: string;
+  jobStatus: JobStatus;
+  jobType: JobType;
+  jobLocation: string;
+  createdBy: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface ICreateJobResponse {
+  message: string;
+  data: IJob;
+}
