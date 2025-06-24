@@ -1,40 +1,13 @@
-import { Form } from 'react-router-dom';
-import styled from 'styled-components';
+import { Form, useNavigation } from 'react-router-dom';
 import { FormRow } from '../components';
 import FormSelect from '../components/FormSelect';
 import { useMemo } from 'react';
-
-const Wrapper = styled.div`
-  box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.1);
-  background: var(--background-secondary-color);
-  border-radius: 10px;
-  padding: 40px 20px;
-  .add-job-form {
-    margin-top: 40px;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
-    button {
-      height: fit-content;
-      align-self: flex-end;
-    }
-    .form-row {
-      margin: 0px !important;
-    }
-  }
-
-  @media only screen and (max-width: 768px) {
-    .add-job-form {
-      grid-template-columns: 1fr;
-    }
-  }
-`;
+import Wrapper from '../assets/wrappers/DashboardFormPage';
 
 const AddJob = () => {
   const jobStatus = useMemo(() => ['pending', 'declined', 'interview'], []);
   const jobType = useMemo(() => ['full-time', 'part-time', 'intership'], []);
+  const { state } = useNavigation();
   return (
     <Wrapper>
       <h2>Add Job</h2>
@@ -75,8 +48,12 @@ const AddJob = () => {
           id='jobType'
           required
         />
-        <button className='btn btn-block' type='submit'>
-          Add Job
+        <button
+          disabled={state === 'submitting'}
+          className='btn btn-block'
+          type='submit'
+        >
+          {state === 'submitting' ? 'Adding...' : 'Add Job'}
         </button>
       </Form>
     </Wrapper>
