@@ -13,7 +13,7 @@ import {
   Admin,
 } from './pages';
 import { ROUTES_PATHS } from './constants';
-import { loginAction, registerAction } from './api/actions';
+import { createJobAction, loginAction, registerAction } from './api/actions';
 import { Toaster } from 'sonner';
 import { useDashboard } from './hooks/useDashboard';
 import { DashboardLoader } from './pages/DashboardLayout';
@@ -47,6 +47,7 @@ const router = createBrowserRouter([
           {
             index: true,
             element: <AddJob />,
+            action: createJobAction,
           },
           {
             path: ROUTES_PATHS.ADD_JOB,

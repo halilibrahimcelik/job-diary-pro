@@ -12,7 +12,6 @@ const LogoutContainer: React.FC = () => {
   const toggleShowLogout = () => {
     setShowLogout(!showLogout);
   };
-  console.log(data);
 
   return (
     <Wrapper>

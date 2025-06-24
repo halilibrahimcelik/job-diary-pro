@@ -23,13 +23,11 @@ export const createJob = async (
   next: NextFunction
 ) => {
   try {
-    const { company, location, position, salary, jobLocation } =
-      req.body as IJob;
+    const { company, position, salary, jobLocation } = req.body as IJob;
 
     const newJob = new Job({
       company,
       position,
-      location,
       salary,
       jobLocation,
       createdBy: req.user?.userId,

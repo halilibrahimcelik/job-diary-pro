@@ -38,7 +38,7 @@ const AddJob = () => {
   return (
     <Wrapper>
       <h2>Add Job</h2>
-      <Form className='add-job-form'>
+      <Form method='POST' className='add-job-form'>
         <FormRow
           label='Position'
           name='position'

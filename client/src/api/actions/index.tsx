@@ -53,3 +53,19 @@ export const loginAction: ActionFunction = async ({ request }) => {
     }
   }
 };
+
+export const createJobAction: ActionFunction = async ({ request }) => {
+  try {
+    const formData = await request.formData();
+    const data = Object.fromEntries(formData);
+    const response = await apiService.post('/jobs', data);
+    console.log(response);
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      toast.error(error.response?.data.message);
+      return error.response?.data;
+    } else {
+      return error;
+    }
+  }
+};

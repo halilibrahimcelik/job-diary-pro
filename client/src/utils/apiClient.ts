@@ -19,7 +19,6 @@ class ApiService {
     //Request interceptor
     this.axiosInstance.interceptors.request.use(
       function (config: InternalAxiosRequestConfig) {
-        console.log(config);
         return config;
       },
       function (error: AxiosError) {
@@ -31,7 +30,6 @@ class ApiService {
     axios.interceptors.response.use(
       function (response: AxiosResponse) {
         // Do something with response data
-        console.log(response);
         return response;
       },
       function (error) {
