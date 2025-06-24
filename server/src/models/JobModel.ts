@@ -4,7 +4,6 @@ import { JobStatus, JobType } from '../types/index.js';
 export interface IJob {
   position: string;
   company: string;
-  location?: string;
   salary?: number;
   jobStatus: JobStatus.INTERVİEW | JobStatus.DECLINED | JobStatus.PENDING;
   jobType: JobType.FULL_TIME | JobType.PART_TIME | JobType.INTERSHIP;
@@ -22,7 +21,6 @@ const JobSchema = new Schema<IJob>(
       type: String,
       required: true,
     },
-    location: String,
     salary: {
       type: Number,
     },
