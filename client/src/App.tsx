@@ -17,6 +17,7 @@ import { createJobAction, loginAction, registerAction } from './api/actions';
 import { Toaster } from 'sonner';
 import { useDashboard } from './hooks/useDashboard';
 import { DashboardLoader } from './pages/DashboardLayout';
+import { AllJobsLoader } from './pages/AllJobs';
 
 const router = createBrowserRouter([
   {
@@ -60,6 +61,7 @@ const router = createBrowserRouter([
           {
             path: ROUTES_PATHS.ALL_JOBS,
             element: <AllJobs />,
+            loader: AllJobsLoader,
           },
           {
             path: ROUTES_PATHS.PROFILE,

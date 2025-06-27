@@ -9,6 +9,11 @@ export enum JobStatus {
   PENDING = 'pending',
 }
 
+export enum WorkModel {
+  REMOTE = 'remote',
+  HYBRID = 'hybrid',
+  ONSITE = 'onsite',
+}
 export enum JOB_SORT_BY {
   NEWEST_FIRST = 'newest',
   OLDEST_FIRST = 'oldest',

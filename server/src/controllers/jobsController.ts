@@ -23,7 +23,8 @@ export const createJob = async (
   next: NextFunction
 ) => {
   try {
-    const { company, position, salary, jobLocation } = req.body as IJob;
+    const { company, position, salary, jobLocation, workModel } =
+      req.body as IJob;
 
     const newJob = new Job({
       company,
@@ -31,6 +32,7 @@ export const createJob = async (
       salary,
       jobLocation,
       createdBy: req.user?.userId,
+      workModel,
     });
 
     await newJob.save();

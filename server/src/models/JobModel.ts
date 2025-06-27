@@ -1,5 +1,5 @@
 import mongoose, { Schema, model } from 'mongoose';
-import { JobStatus, JobType } from '../types/index.js';
+import { JobStatus, JobType, WorkModel } from '../types/index.js';
 
 export interface IJob {
   position: string;
@@ -7,6 +7,7 @@ export interface IJob {
   salary?: number;
   jobStatus: JobStatus.INTERVİEW | JobStatus.DECLINED | JobStatus.PENDING;
   jobType: JobType.FULL_TIME | JobType.PART_TIME | JobType.INTERSHIP;
+  workModel: WorkModel.HYBRID | WorkModel.ONSITE | WorkModel.REMOTE;
   jobLocation: string;
   createdBy: any;
 }
@@ -33,6 +34,11 @@ const JobSchema = new Schema<IJob>(
       type: String,
       enum: [JobType.FULL_TIME, JobType.PART_TIME, JobType.INTERSHIP],
       default: JobType.FULL_TIME,
+    },
+    workModel: {
+      type: String,
+      enum: [WorkModel.HYBRID, WorkModel.ONSITE, WorkModel.REMOTE],
+      default: WorkModel.ONSITE,
     },
     jobLocation: {
       type: String,
