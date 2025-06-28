@@ -48,7 +48,7 @@ html {
   --extra-small-text: 0.7em;
   /* rest of the vars */
 
-  --border-radius: 0.25rem;
+  --border-radius: 0.5rem;
   --letter-spacing: 1px;
   --transition: 0.3s ease-in-out all;
   --max-width: 1120px;
@@ -172,7 +172,13 @@ ul {
   object-fit: cover;
 }
 /* buttons */
-
+.icon {
+  display: inline-block;
+  width: 1.5rem;
+  height: 1.5rem;
+  margin-right: 0.5rem;
+  vertical-align: middle;
+}
 .btn {
   cursor: pointer;
   color: var(--white);

@@ -27,7 +27,7 @@ const AllJobs = () => {
   return (
     <>
       <SearchContainer />
-      <JobsContainer />
+      <JobsContainer jobs={data} />
     </>
   );
 };

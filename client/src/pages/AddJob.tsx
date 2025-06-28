@@ -7,6 +7,8 @@ import Wrapper from '../assets/wrappers/DashboardFormPage';
 const AddJob = () => {
   const jobStatus = useMemo(() => ['pending', 'declined', 'interview'], []);
   const jobType = useMemo(() => ['full-time', 'part-time', 'intership'], []);
+  const workModel = useMemo(() => ['remote', 'onsite', 'hybrid'], []);
+
   const { state } = useNavigation();
   return (
     <Wrapper>
@@ -46,6 +48,13 @@ const AddJob = () => {
           name='jobType'
           optionList={jobType}
           id='jobType'
+          required
+        />
+        <FormSelect
+          label='Work Model'
+          name='workModel'
+          optionList={workModel}
+          id='workModel'
           required
         />
         <button

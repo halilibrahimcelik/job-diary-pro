@@ -12,6 +12,7 @@ export interface IJob {
   jobStatus: JobStatus;
   jobType: JobType;
   jobLocation: string;
+  workModel: string;
   createdBy: string;
   createdAt: string;
   updatedAt: string;
@@ -22,7 +23,7 @@ export type UserResponse = {
 };
 export type JobResponse = {
   message: string;
-  data: IJob;
+  data: IJob[];
 };
 
 export type JobStatus = 'pending' | 'interview' | 'declined';
