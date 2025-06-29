@@ -53,6 +53,10 @@ const Job: React.FC<Props> = ({ job }) => {
           </JobInfo>
           <div className={`status ${job.jobStatus}`}>{job.jobStatus}</div>
         </div>
+        <div className='actions'>
+          <button className='btn'>Edit</button>
+          <button className='btn btn-outline'>Delete</button>
+        </div>
       </div>
     </Wrapper>
   );

@@ -10,7 +10,7 @@ const JobsContainer: React.FC<Props> = ({ jobs }) => {
     <Wrapper>
       <div className='jobs'>
         {jobs.map((job) => {
-          return <Job job={job} />;
+          return <Job job={job} key={job._id} />;
         })}
       </div>
     </Wrapper>

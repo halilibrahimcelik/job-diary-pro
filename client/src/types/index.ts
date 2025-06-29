@@ -13,6 +13,7 @@ export interface IJob {
   jobType: JobType;
   jobLocation: string;
   workModel: string;
+  _id: string;
   createdBy: string;
   createdAt: string;
   updatedAt: string;

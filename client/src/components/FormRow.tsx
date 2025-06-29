@@ -1,11 +1,11 @@
-type Props = {
+interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
   type: React.HTMLInputTypeAttribute;
   label: string;
   id: string;
   defaultValue?: string;
   name?: string;
   required?: boolean;
-};
+}
 
 const FormRow: React.FC<Props> = ({
   type,
@@ -14,6 +14,8 @@ const FormRow: React.FC<Props> = ({
   name,
   defaultValue = '',
   required,
+
+  ...props
 }) => {
   return (
     <div className='form-row'>
@@ -21,6 +23,7 @@ const FormRow: React.FC<Props> = ({
         {label}
       </label>
       <input
+        {...props}
         type={type}
         className='form-input'
         id={id}

@@ -5,7 +5,7 @@ const Wrapper = styled.section`
   background: var(--background-secondary-color);
   border-radius: 10px;
   padding: 40px 20px;
-  .add-job-form {
+  .form-component {
     margin-top: 40px;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
@@ -22,7 +22,7 @@ const Wrapper = styled.section`
   }
 
   @media only screen and (max-width: 768px) {
-    .add-job-form {
+    .form-component {
       grid-template-columns: 1fr;
     }
   }

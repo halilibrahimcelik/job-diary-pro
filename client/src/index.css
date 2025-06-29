@@ -192,6 +192,17 @@ ul {
   text-transform: capitalize;
   display: inline-block;
 }
+.btn-outline {
+  color: var(--primary-500);
+  background: transparent;
+  border: 1px solid var(--primary-500);
+  &:hover {
+    color: var(--white);
+    background: var(--primary-500);
+    box-shadow: var(--shadow-3);
+  }
+}
+
 .btn:hover {
   background: var(--primary-700);
   box-shadow: var(--shadow-3);

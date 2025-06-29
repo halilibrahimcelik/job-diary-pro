@@ -10,10 +10,11 @@ const AddJob = () => {
   const workModel = useMemo(() => ['remote', 'onsite', 'hybrid'], []);
 
   const { state } = useNavigation();
+
   return (
     <Wrapper>
       <h2>Add Job</h2>
-      <Form method='POST' className='add-job-form'>
+      <Form method='POST' className='form-component'>
         <FormRow
           label='Position'
           name='position'

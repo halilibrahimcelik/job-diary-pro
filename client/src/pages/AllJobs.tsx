@@ -5,6 +5,8 @@ import { apiService } from '../api/actions';
 import type { JobResponse } from '../types';
 import SearchContainer from '../components/SearchContainer';
 import JobsContainer from '../components/JobsContainer';
+import { useJobs } from '../hooks/useJobs';
+import { useEffect } from 'react';
 
 export const AllJobsLoader = async () => {
   try {
@@ -23,11 +25,15 @@ export const AllJobsLoader = async () => {
 };
 const AllJobs = () => {
   const { data } = useLoaderData<JobResponse>();
-  console.log(data);
+  const { setJobs, jobs } = useJobs();
+  useEffect(() => {
+    setJobs(data);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <>
-      <SearchContainer />
-      <JobsContainer jobs={data} />
+      <SearchContainer allJobs={data} />
+      <JobsContainer jobs={jobs} />
     </>
   );
 };
