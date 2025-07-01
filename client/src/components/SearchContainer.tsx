@@ -53,6 +53,7 @@ const SearchContainer: React.FC<Props> = ({ allJobs }) => {
   const jobStatusQuery = searchParams.get('jobStatus')?.toLowerCase().trim();
   const jobTypeQuery = searchParams.get('jobType')?.toLowerCase().trim();
   const workModelQuery = searchParams.get('workModel')?.toLowerCase().trim();
+  const sortByQuery = searchParams.get('sort')?.toLowerCase().trim();
 
   const handleSearch = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -125,16 +126,23 @@ const SearchContainer: React.FC<Props> = ({ allJobs }) => {
     if (jobStatusQuery) params.append('jobStatus', jobStatusQuery);
     if (jobTypeQuery) params.append('jobType', jobTypeQuery);
     if (workModelQuery) params.append('workModel', workModelQuery);
-    console.log(params.toString());
+    if (sortByQuery) params.append('sort', sortByQuery);
 
     const fetchFilteredRequest = async () => {
       const response = await apiService.get<JobResponse>(
         '/jobs?' + params.toString()
       );
-      console.log(response);
+      setJobs(response.data.data);
     };
     fetchFilteredRequest();
-  }, [jobStatusQuery, jobTypeQuery, searchedQuery, workModelQuery]);
+  }, [
+    jobStatusQuery,
+    jobTypeQuery,
+    searchedQuery,
+    workModelQuery,
+    sortByQuery,
+    setJobs,
+  ]);
 
   return (
     <CustomWrapper>

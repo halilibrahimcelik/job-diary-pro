@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { IJob, Job } from '../models/JobModel.js';
 import { StatusCodes } from 'http-status-codes';
+import { FilterQuery, SortOrder } from 'mongoose';
 export const getAllJobs = async (
   req: Request,
   res: Response,
@@ -8,11 +9,48 @@ export const getAllJobs = async (
 ) => {
   try {
     const user = req.user;
-    const jobs = await Job.find({ createdBy: user?.userId }).sort([
-      ['createdAt', -1],
-    ]);
+
     const queryParams = req.query;
-    console.log(queryParams);
+    const filter: FilterQuery<IJob> = {};
+    let sortBy: [string, SortOrder] = ['createdAt', -1];
+    if (queryParams.search) {
+      filter.$or = [
+        { position: { $regex: queryParams.search, $options: 'i' } },
+        { company: { $regex: queryParams.search, $options: 'i' } },
+      ];
+    }
+    if (queryParams.jobStatus) {
+      filter.jobStatus = queryParams.jobStatus;
+    }
+    if (queryParams.jobType) {
+      filter.jobType = queryParams.jobType;
+    }
+    if (queryParams.workModel) {
+      filter.workModel = queryParams.workModel;
+    }
+    if (queryParams.workModel) {
+      filter.workModel = queryParams.workModel;
+    }
+    if (queryParams.sort) {
+      const sortQuery = queryParams.sort;
+      if (sortQuery === 'newest') sortBy = ['createdAt', -1];
+      if (sortQuery === 'oldest') sortBy = ['createdAt', 1];
+      if (sortQuery === 'a-z') {
+        sortBy = ['position', 1];
+      }
+      if (sortQuery === 'z-a') {
+        sortBy = ['position', -1];
+      }
+    }
+    filter.createdBy = user?.userId;
+
+    const jobs = await Job.find(filter)
+      .collation({
+        locale: 'en',
+        strength: 2,
+      })
+      .sort([sortBy]);
+
     res.status(StatusCodes.OK).json({
       message: 'Data send successfully!!',
       data: jobs,
