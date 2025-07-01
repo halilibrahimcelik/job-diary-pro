@@ -44,16 +44,27 @@ export const getAllJobs = async (
     }
     filter.createdBy = user?.userId;
 
+    //Adding pagination
+
+    const page = parseInt((queryParams.page as string) || '1', 10);
+    const limit = parseInt((queryParams.limit as string) || '6', 10);
+    const skip = (page - 1) * limit;
     const jobs = await Job.find(filter)
       .collation({
         locale: 'en',
         strength: 2,
       })
-      .sort([sortBy]);
+      .sort([sortBy])
+      .skip(skip);
+
+    const total = await Job.countDocuments(filter);
 
     res.status(StatusCodes.OK).json({
       message: 'Data send successfully!!',
       data: jobs,
+      total,
+      page,
+      totalPage: Math.ceil(total / limit),
     });
   } catch (error) {
     next(error);

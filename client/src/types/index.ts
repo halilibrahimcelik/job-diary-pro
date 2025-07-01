@@ -25,6 +25,9 @@ export type UserResponse = {
 export type JobResponse = {
   message: string;
   data: IJob[];
+  page: number;
+  total: number;
+  totalPage: number;
 };
 
 export type JobStatus = 'pending' | 'interview' | 'declined';

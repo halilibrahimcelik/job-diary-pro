@@ -132,6 +132,7 @@ const SearchContainer: React.FC<Props> = ({ allJobs }) => {
       const response = await apiService.get<JobResponse>(
         '/jobs?' + params.toString()
       );
+      console.log(response);
       setJobs(response.data.data);
     };
     fetchFilteredRequest();
