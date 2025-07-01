@@ -29,6 +29,8 @@ export type JobResponse = {
 
 export type JobStatus = 'pending' | 'interview' | 'declined';
 export type JobType = 'full-time' | 'part-time' | 'internship';
+export type WorkModel = 'onsite' | 'remote' | 'hybrid';
+export type SortJobs = 'newest' | 'oldest' | 'a-z' | 'z-a';
 
 export interface ICreateJobResponse {
   message: string;

@@ -5,6 +5,7 @@ interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
   defaultValue?: string;
   name?: string;
   required?: boolean;
+  ref?: React.Ref<HTMLInputElement> | undefined;
 }
 
 const FormRow: React.FC<Props> = ({
@@ -12,6 +13,7 @@ const FormRow: React.FC<Props> = ({
   label,
   id,
   name,
+  ref,
   defaultValue = '',
   required,
 
@@ -24,6 +26,7 @@ const FormRow: React.FC<Props> = ({
       </label>
       <input
         {...props}
+        ref={ref}
         type={type}
         className='form-input'
         id={id}

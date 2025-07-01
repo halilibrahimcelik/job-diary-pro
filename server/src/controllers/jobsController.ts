@@ -8,7 +8,11 @@ export const getAllJobs = async (
 ) => {
   try {
     const user = req.user;
-    const jobs = await Job.find({ createdBy: user?.userId });
+    const jobs = await Job.find({ createdBy: user?.userId }).sort([
+      ['createdAt', -1],
+    ]);
+    const queryParams = req.query;
+    console.log(queryParams);
     res.status(StatusCodes.OK).json({
       message: 'Data send successfully!!',
       data: jobs,

@@ -1,15 +1,14 @@
 import { memo } from 'react';
-type Props = {
+interface Props extends React.InputHTMLAttributes<HTMLSelectElement> {
   label: string;
   id: string;
-  defaultValue?: string;
   name?: string;
   required?: boolean;
   optionList: string[];
-};
+}
 
 const FormSelect: React.FC<Props> = memo(
-  ({ optionList, label, id, name, defaultValue = '', required }) => {
+  ({ optionList, label, id, name, required, ...props }) => {
     return (
       <div className='form-row'>
         <label htmlFor={id} className='form-label'>
@@ -20,7 +19,8 @@ const FormSelect: React.FC<Props> = memo(
           id={id}
           name={name}
           required={required}
-          defaultValue={defaultValue}
+          value={props.value}
+          {...props}
         >
           {optionList.map((list, idx) => {
             return <option key={list + idx}>{list}</option>;
