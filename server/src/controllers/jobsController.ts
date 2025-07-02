@@ -20,17 +20,27 @@ export const getAllJobs = async (
       ];
     }
     if (queryParams.jobStatus) {
-      filter.jobStatus = queryParams.jobStatus;
+      if (queryParams.jobStatus === 'all') {
+        delete filter.jobStatus;
+      } else {
+        filter.jobStatus = queryParams.jobStatus;
+      }
     }
     if (queryParams.jobType) {
-      filter.jobType = queryParams.jobType;
+      if (queryParams.jobType === 'all') {
+        delete filter.jobType;
+      } else {
+        filter.jobType = queryParams.jobType;
+      }
     }
     if (queryParams.workModel) {
-      filter.workModel = queryParams.workModel;
+      if (queryParams.workModel === 'all') {
+        delete filter.workModel;
+      } else {
+        filter.workModel = queryParams.workModel;
+      }
     }
-    if (queryParams.workModel) {
-      filter.workModel = queryParams.workModel;
-    }
+
     if (queryParams.sort) {
       const sortQuery = queryParams.sort;
       if (sortQuery === 'newest') sortBy = ['createdAt', -1];
@@ -45,7 +55,6 @@ export const getAllJobs = async (
     filter.createdBy = user?.userId;
 
     //Adding pagination
-
     const page = parseInt((queryParams.page as string) || '1', 10);
     const limit = parseInt((queryParams.limit as string) || '6', 10);
     const skip = (page - 1) * limit;
@@ -55,7 +64,8 @@ export const getAllJobs = async (
         strength: 2,
       })
       .sort([sortBy])
-      .skip(skip);
+      .skip(skip)
+      .limit(limit);
 
     const total = await Job.countDocuments(filter);
 

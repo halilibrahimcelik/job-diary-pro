@@ -29,9 +29,9 @@ type Props = {
 const SearchContainer: React.FC<Props> = ({ allJobs }) => {
   const searchedFieldRef = useRef<HTMLInputElement>(null);
   const [searchParams, setSearchParams] = useSearchParams();
-  const [jobStatus, setJobStatus] = useState<JobStatus>('pending');
-  const [workModel, setWorkModel] = useState<WorkModel>('remote');
-  const [jobType, setJobType] = useState<JobType>('full-time');
+  const [jobStatus, setJobStatus] = useState<JobStatus>('all');
+  const [workModel, setWorkModel] = useState<WorkModel>('all');
+  const [jobType, setJobType] = useState<JobType>('all');
   const [sortBy, setSortBy] = useState<SortJobs>('newest');
   const { setJobs } = useJobs();
 
@@ -54,7 +54,7 @@ const SearchContainer: React.FC<Props> = ({ allJobs }) => {
   const jobTypeQuery = searchParams.get('jobType')?.toLowerCase().trim();
   const workModelQuery = searchParams.get('workModel')?.toLowerCase().trim();
   const sortByQuery = searchParams.get('sort')?.toLowerCase().trim();
-
+  const pageQuery = searchParams.get('page')?.toLowerCase().trim();
   const handleSearch = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const value = e.target.value;
@@ -127,7 +127,7 @@ const SearchContainer: React.FC<Props> = ({ allJobs }) => {
     if (jobTypeQuery) params.append('jobType', jobTypeQuery);
     if (workModelQuery) params.append('workModel', workModelQuery);
     if (sortByQuery) params.append('sort', sortByQuery);
-
+    if (pageQuery) params.append('page', pageQuery);
     const fetchFilteredRequest = async () => {
       const response = await apiService.get<JobResponse>(
         '/jobs?' + params.toString()
@@ -143,6 +143,7 @@ const SearchContainer: React.FC<Props> = ({ allJobs }) => {
     workModelQuery,
     sortByQuery,
     setJobs,
+    pageQuery,
   ]);
 
   return (

@@ -30,9 +30,9 @@ export type JobResponse = {
   totalPage: number;
 };
 
-export type JobStatus = 'pending' | 'interview' | 'declined';
-export type JobType = 'full-time' | 'part-time' | 'internship';
-export type WorkModel = 'onsite' | 'remote' | 'hybrid';
+export type JobStatus = 'all' | 'pending' | 'interview' | 'declined';
+export type JobType = 'all' | 'full-time' | 'part-time' | 'internship';
+export type WorkModel = 'all' | 'onsite' | 'remote' | 'hybrid';
 export type SortJobs = 'newest' | 'oldest' | 'a-z' | 'z-a';
 
 export interface ICreateJobResponse {
