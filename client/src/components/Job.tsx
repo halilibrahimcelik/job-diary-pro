@@ -9,14 +9,39 @@ import {
   IoPodiumOutline,
 } from 'react-icons/io5';
 import { CgWorkAlt } from 'react-icons/cg';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import Modal from './Modal';
+import { AxiosError } from 'axios';
+import { toast } from 'sonner';
+import { apiService } from '../api/actions';
 
 type Props = {
   job: IJob;
 };
 const Job: React.FC<Props> = ({ job }) => {
   const formattedDate = format(new Date(job.createdAt), 'MMM do, yyyy');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const openModal = () => setIsModalOpen(true);
+  const navigate = useNavigate();
+  const closeModal = () => setIsModalOpen(false);
+  const handleDelete = async () => {
+    try {
+      const response = await apiService.delete<{ message: string }>(
+        '/jobs/' + job._id.toString()
+      );
+      if (response.status === 200) {
+        toast.success(response.data.message);
 
+        setIsModalOpen(false);
+        navigate(0);
+      }
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        toast.error(error.response?.data.message);
+      }
+    }
+  };
   return (
     <Wrapper>
       <header>
@@ -58,9 +83,29 @@ const Job: React.FC<Props> = ({ job }) => {
           <button className='btn'>
             <Link to={job._id.toString()}>Edit</Link>
           </button>
-          <button className='btn btn-outline'>Delete</button>
+          <button className='btn btn-outline' onClick={openModal}>
+            Delete
+          </button>
         </div>
       </div>
+      <Modal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        title='Are you Sure ?'
+        showCloseButton={true}
+        closeOnOverlayClick={true}
+        closeOnEscape={true}
+      >
+        <p>Once deleted, this job cannot be recovered.</p>
+        <div className='btn-wrapper'>
+          <button className='btn btn-outline' onClick={closeModal}>
+            No
+          </button>
+          <button className='btn' onClick={handleDelete}>
+            Yes
+          </button>
+        </div>
+      </Modal>
     </Wrapper>
   );
 };

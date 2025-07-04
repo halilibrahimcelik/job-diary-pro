@@ -68,7 +68,6 @@ export const getAllJobs = async (
       .limit(limit);
 
     const total = await Job.countDocuments(filter);
-    console.log(jobs);
     res.status(StatusCodes.OK).json({
       message: 'Data send successfully!!',
       data: jobs,
@@ -166,7 +165,7 @@ export const deletesingleJob = async (
 
     await Job.deleteOne({ _id: jobId });
 
-    res.status(StatusCodes.CREATED).json({
+    res.status(StatusCodes.OK).json({
       message: 'Job has been removed from the list',
     });
   } catch (error) {

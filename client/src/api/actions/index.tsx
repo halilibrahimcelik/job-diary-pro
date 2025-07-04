@@ -38,7 +38,6 @@ export const loginAction: ActionFunction = async ({ request }) => {
     const data = Object.fromEntries(formData);
 
     const response = await apiService.post('/auth/login', data);
-    console.log(response);
     if (response.status === 200) {
       toast.success(<span> Welcome Back ✨✨✨✨</span>);
       return redirect('/' + ROUTES_PATHS.DASHBOARD);
