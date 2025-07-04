@@ -24,6 +24,11 @@ const PageContainer: React.FC<Props> = ({ page, totalPage }) => {
     }
   };
 
+  const handleSetPage = (n: number) => {
+    setPage(n);
+    setSearchParams({ page: n.toString() });
+  };
+
   const pageQuery = searchParams.get('page');
   useEffect(() => {
     if (pageQuery) {
@@ -42,6 +47,7 @@ const PageContainer: React.FC<Props> = ({ page, totalPage }) => {
         {totalPageArray.map((n) => {
           return (
             <button
+              onClick={() => handleSetPage(n)}
               key={n}
               className={`page-btn btn ${currentPage === n ? 'active' : ''}`}
             >
