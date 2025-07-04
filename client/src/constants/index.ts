@@ -7,7 +7,7 @@ export const ROUTES_PATHS = {
   PROFILE: 'profile',
   STATS: 'stats',
   DELETE_JOBS: 'delete-jobs',
-  ALL_JOBS: 'all-jobs',
+  ALL_JOBS: 'jobs',
   ADD_JOB: 'add-job',
   EDIT_JOB: 'edit-job/:id',
   ADMIN: 'admin',

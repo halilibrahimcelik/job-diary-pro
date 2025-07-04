@@ -11,13 +11,20 @@ import {
   AllJobs,
   Profile,
   Admin,
+  EditJob,
 } from './pages';
 import { ROUTES_PATHS } from './constants';
-import { createJobAction, loginAction, registerAction } from './api/actions';
+import {
+  createJobAction,
+  editJobAction,
+  loginAction,
+  registerAction,
+} from './api/actions';
 import { Toaster } from 'sonner';
 import { useDashboard } from './hooks/useDashboard';
 import { DashboardLoader } from './pages/DashboardLayout';
 import { AllJobsLoader } from './pages/AllJobs';
+import { EditJobsLoader } from './pages/EditJob';
 
 const router = createBrowserRouter([
   {
@@ -62,6 +69,12 @@ const router = createBrowserRouter([
             path: ROUTES_PATHS.ALL_JOBS,
             element: <AllJobs />,
             loader: AllJobsLoader,
+          },
+          {
+            path: ROUTES_PATHS.ALL_JOBS + '/:jobId',
+            element: <EditJob />,
+            loader: EditJobsLoader,
+            action: editJobAction,
           },
           {
             path: ROUTES_PATHS.PROFILE,

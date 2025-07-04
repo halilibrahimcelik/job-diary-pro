@@ -1,4 +1,40 @@
+import {
+  useParams,
+  useLoaderData,
+  type LoaderFunctionArgs,
+} from 'react-router-dom';
+import { AxiosError } from 'axios';
+import { apiService } from '../api/actions';
+import type { IJob, JobResponse } from '../types';
+import JobForm from '../components/JobForm';
+
+export const EditJobsLoader = async ({ params }: LoaderFunctionArgs) => {
+  const { jobId } = params;
+  try {
+    const response = await apiService.get<JobResponse>(`/jobs/${jobId}`);
+    return response.data.data;
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      return error.response?.data.message;
+    }
+  }
+};
 const EditJob = () => {
-  return <h1>EditJob Page</h1>;
+  const params = useParams();
+  const data = useLoaderData<IJob>();
+  console.log(params);
+  console.log(data);
+  return (
+    <JobForm
+      submitButtonLabel='Edit'
+      submittingLabel='Editting...'
+      company={data.company}
+      jobLocation={data.jobLocation}
+      jobStatus={data.jobStatus}
+      jobType={data.jobType}
+      position={data.position}
+      workModel={data.workModel}
+    />
+  );
 };
 export default EditJob;

@@ -29,6 +29,13 @@ export type JobResponse = {
   total: number;
   totalPage: number;
 };
+export type JobSingleResponse = {
+  message: string;
+  data: IJob;
+  page: number;
+  total: number;
+  totalPage: number;
+};
 
 export type JobStatus = 'all' | 'pending' | 'interview' | 'declined';
 export type JobType = 'all' | 'full-time' | 'part-time' | 'internship';

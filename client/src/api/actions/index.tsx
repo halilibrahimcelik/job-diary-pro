@@ -4,7 +4,7 @@ import ApiService from '../../utils/apiClient';
 import { ROUTES_PATHS } from '../../constants';
 export const apiService = new ApiService('http://localhost:8080/api/v1');
 import { toast } from 'sonner';
-import type { ICreateJobResponse } from '../../types';
+import type { ICreateJobResponse, JobSingleResponse } from '../../types';
 
 export const registerAction: ActionFunction = async ({ request }) => {
   try {
@@ -73,6 +73,38 @@ export const createJobAction: ActionFunction = async ({ request }) => {
         '/' + ROUTES_PATHS.DASHBOARD + '/' + ROUTES_PATHS.ALL_JOBS
       );
     }
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      toast.error(error.response?.data.message);
+      return error.response?.data;
+    } else {
+      return error;
+    }
+  }
+};
+
+export const editJobAction: ActionFunction = async ({ request, params }) => {
+  const data = await request.formData();
+  const formData = Object.fromEntries(data);
+  try {
+    const response = await apiService.patch<JobSingleResponse>(
+      '/jobs/' + params.jobId,
+      formData
+    );
+    if (response.status === 201) {
+      toast.success(
+        <span>
+          {' '}
+          {response.data.data.position} position at {response.data.data.company}{' '}
+          has been updated successfully!
+        </span>
+      );
+      return redirect(
+        '/' + ROUTES_PATHS.DASHBOARD + '/' + ROUTES_PATHS.ALL_JOBS
+      );
+    }
+
+    return null;
   } catch (error) {
     if (error instanceof AxiosError) {
       toast.error(error.response?.data.message);

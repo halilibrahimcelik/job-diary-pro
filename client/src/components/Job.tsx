@@ -9,6 +9,7 @@ import {
   IoPodiumOutline,
 } from 'react-icons/io5';
 import { CgWorkAlt } from 'react-icons/cg';
+import { Link } from 'react-router-dom';
 
 type Props = {
   job: IJob;
@@ -54,7 +55,9 @@ const Job: React.FC<Props> = ({ job }) => {
           <div className={`status ${job.jobStatus}`}>{job.jobStatus}</div>
         </div>
         <div className='actions'>
-          <button className='btn'>Edit</button>
+          <button className='btn'>
+            <Link to={job._id.toString()}>Edit</Link>
+          </button>
           <button className='btn btn-outline'>Delete</button>
         </div>
       </div>

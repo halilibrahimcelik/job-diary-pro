@@ -61,6 +61,13 @@ class ApiService {
     const response = await this.axiosInstance.put(url, data);
     return response;
   }
+  public async patch<T>(
+    url: string,
+    data?: Record<string, unknown>
+  ): Promise<AxiosResponse<T>> {
+    const response = await this.axiosInstance.patch(url, data);
+    return response;
+  }
   public async delete<T>(
     url: string,
     data?: Record<string, unknown>
