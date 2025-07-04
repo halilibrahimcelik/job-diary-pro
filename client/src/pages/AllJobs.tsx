@@ -3,8 +3,9 @@ import { redirect, useLoaderData } from 'react-router-dom';
 import { toast } from 'sonner';
 import { apiService } from '../api/actions';
 import type { JobResponse } from '../types';
-import SearchContainer from '../components/SearchContainer';
-import JobsContainer from '../components/JobsContainer';
+import { SearchContainer } from '../components';
+import { JobsContainer } from '../components';
+import { PageContainer } from '../components';
 import { useJobs } from '../hooks/useJobs';
 import { useEffect } from 'react';
 
@@ -24,7 +25,7 @@ export const AllJobsLoader = async () => {
   return null;
 };
 const AllJobs = () => {
-  const { data } = useLoaderData<JobResponse>();
+  const { data, page, totalPage } = useLoaderData<JobResponse>();
   const { setJobs, jobs } = useJobs();
   useEffect(() => {
     setJobs(data);
@@ -34,6 +35,7 @@ const AllJobs = () => {
     <>
       <SearchContainer allJobs={data} />
       <JobsContainer jobs={jobs} />
+      <PageContainer page={page} totalPage={totalPage} />
     </>
   );
 };

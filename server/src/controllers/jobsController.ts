@@ -68,7 +68,7 @@ export const getAllJobs = async (
       .limit(limit);
 
     const total = await Job.countDocuments(filter);
-
+    console.log(jobs);
     res.status(StatusCodes.OK).json({
       message: 'Data send successfully!!',
       data: jobs,

@@ -44,6 +44,10 @@ const Wrapper = styled.section`
     justify-content: center;
     gap: 0.5rem;
     cursor: pointer;
+    &:disabled {
+      pointer-events: none;
+      opacity: 0.6;
+    }
   }
   .prev-btn:hover,
   .next-btn:hover {

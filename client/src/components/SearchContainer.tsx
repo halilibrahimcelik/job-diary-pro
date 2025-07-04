@@ -61,6 +61,7 @@ const SearchContainer: React.FC<Props> = ({ allJobs }) => {
       setSearchParams((prev) => {
         const params = new URLSearchParams(prev);
         params.set('search', value);
+        params.set('page', '1'); // Reset to page 1 when searching
         return params;
       });
     },
@@ -72,6 +73,7 @@ const SearchContainer: React.FC<Props> = ({ allJobs }) => {
     setSearchParams((prev) => {
       const params = new URLSearchParams(prev);
       params.set('jobStatus', value);
+      params.set('page', '1'); // Reset to page 1 when filtering
       return params;
     });
   };
@@ -81,6 +83,7 @@ const SearchContainer: React.FC<Props> = ({ allJobs }) => {
     setSearchParams((prev) => {
       const params = new URLSearchParams(prev);
       params.set('jobType', value);
+      params.set('page', '1'); // Reset to page 1 when filtering
       return params;
     });
   };
@@ -90,6 +93,7 @@ const SearchContainer: React.FC<Props> = ({ allJobs }) => {
     setSearchParams((prev) => {
       const params = new URLSearchParams(prev);
       params.set('workModel', value);
+      params.set('page', '1'); // Reset to page 1 when filtering
       return params;
     });
   };
@@ -99,6 +103,7 @@ const SearchContainer: React.FC<Props> = ({ allJobs }) => {
     setSearchParams((prev) => {
       const params = new URLSearchParams(prev);
       params.set('sort', value);
+      params.set('page', '1'); // Reset to page 1 when sorting
       return params;
     });
   };
@@ -135,6 +140,9 @@ const SearchContainer: React.FC<Props> = ({ allJobs }) => {
       console.log(response);
       setJobs(response.data.data);
     };
+    console.log('test');
+    console.log(params.toString());
+
     fetchFilteredRequest();
   }, [
     jobStatusQuery,
