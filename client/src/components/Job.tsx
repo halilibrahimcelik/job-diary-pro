@@ -9,7 +9,7 @@ import {
   IoPodiumOutline,
 } from 'react-icons/io5';
 import { CgWorkAlt } from 'react-icons/cg';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { useState } from 'react';
 import Modal from './Modal';
 import { AxiosError } from 'axios';
@@ -22,8 +22,10 @@ type Props = {
 const Job: React.FC<Props> = ({ job }) => {
   const formattedDate = format(new Date(job.createdAt), 'MMM do, yyyy');
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const openModal = () => setIsModalOpen(true);
-  const navigate = useNavigate();
+  const [, setParams] = useSearchParams();
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
   const closeModal = () => setIsModalOpen(false);
   const handleDelete = async () => {
     try {
@@ -32,9 +34,10 @@ const Job: React.FC<Props> = ({ job }) => {
       );
       if (response.status === 200) {
         toast.success(response.data.message);
-
+        setParams({
+          jobDeleted: 'true',
+        });
         setIsModalOpen(false);
-        navigate(0);
       }
     } catch (error) {
       if (error instanceof AxiosError) {

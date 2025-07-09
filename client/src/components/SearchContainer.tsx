@@ -22,6 +22,9 @@ const CustomWrapper = styled(Wrapper)`
     display: flex;
     align-items: center;
   }
+  .mt-4 {
+    margin-top: 24px;
+  }
 `;
 type Props = {
   allJobs: IJob[];
@@ -33,7 +36,7 @@ const SearchContainer: React.FC<Props> = ({ allJobs }) => {
   const [workModel, setWorkModel] = useState<WorkModel>('all');
   const [jobType, setJobType] = useState<JobType>('all');
   const [sortBy, setSortBy] = useState<SortJobs>('newest');
-  const { setJobs } = useJobs();
+  const { setJobs, setPageInfo, pageInfo } = useJobs();
 
   const jobStatusList = useMemo(
     () => ['all', 'pending', 'declined', 'interview'],
@@ -55,6 +58,7 @@ const SearchContainer: React.FC<Props> = ({ allJobs }) => {
   const workModelQuery = searchParams.get('workModel')?.toLowerCase().trim();
   const sortByQuery = searchParams.get('sort')?.toLowerCase().trim();
   const pageQuery = searchParams.get('page')?.toLowerCase().trim();
+  const jobDeletedQuery = searchParams.get('jobDeleted')?.toLowerCase().trim();
   const handleSearch = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const value = e.target.value;
@@ -133,25 +137,35 @@ const SearchContainer: React.FC<Props> = ({ allJobs }) => {
     if (workModelQuery) params.append('workModel', workModelQuery);
     if (sortByQuery) params.append('sort', sortByQuery);
     if (pageQuery) params.append('page', pageQuery);
+
     const fetchFilteredRequest = async () => {
       const response = await apiService.get<JobResponse>(
         '/jobs?' + params.toString()
       );
-      console.log(response);
       setJobs(response.data.data);
+      setPageInfo({
+        page: response.data.page,
+        total: response.data.total,
+        totalPage: response.data.totalPage,
+      });
     };
-    console.log('test');
-    console.log(params.toString());
 
-    fetchFilteredRequest();
+    if (jobDeletedQuery !== 'true') {
+      fetchFilteredRequest();
+    }
+    if (jobDeletedQuery && jobDeletedQuery === 'true') {
+      fetchFilteredRequest();
+    }
   }, [
     jobStatusQuery,
     jobTypeQuery,
     searchedQuery,
     workModelQuery,
     sortByQuery,
+    jobDeletedQuery,
     setJobs,
     pageQuery,
+    setPageInfo,
   ]);
 
   return (
@@ -208,6 +222,10 @@ const SearchContainer: React.FC<Props> = ({ allJobs }) => {
           Reset
         </button>
       </div>
+      <h4 className='mt-4'>
+        {' '}
+        {pageInfo.total} {pageInfo.total > 1 ? 'Jobs' : 'Job'} Found
+      </h4>
     </CustomWrapper>
   );
 };

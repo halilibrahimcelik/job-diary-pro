@@ -11,7 +11,7 @@ import { useEffect } from 'react';
 
 export const AllJobsLoader = async () => {
   try {
-    const response = await apiService.get<JobResponse>('/jobs');
+    const response = await apiService.get<JobResponse>('/jobs?test=2');
     //console.log(response);
     if (response.status === 200) {
       return response.data;
