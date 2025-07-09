@@ -8,6 +8,7 @@ import { JobsContainer } from '../components';
 import { PageContainer } from '../components';
 import { useJobs } from '../hooks/useJobs';
 import { useEffect } from 'react';
+import EmptyState from '../components/EmptyState';
 
 export const AllJobsLoader = async () => {
   try {
@@ -26,7 +27,7 @@ export const AllJobsLoader = async () => {
 };
 const AllJobs = () => {
   const { data, page, totalPage } = useLoaderData<JobResponse>();
-  const { setJobs, jobs } = useJobs();
+  const { setJobs, jobs, pageInfo } = useJobs();
   useEffect(() => {
     setJobs(data);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -34,8 +35,14 @@ const AllJobs = () => {
   return (
     <>
       <SearchContainer allJobs={data} />
-      <JobsContainer jobs={jobs} />
-      <PageContainer page={page} totalPage={totalPage} />
+      {pageInfo.total === 0 ? (
+        <EmptyState />
+      ) : (
+        <>
+          <JobsContainer jobs={jobs} />
+          <PageContainer page={page} totalPage={totalPage} />
+        </>
+      )}
     </>
   );
 };
