@@ -10,6 +10,8 @@ type InitialStateType = {
   toggleDarkMode: () => void;
   toggleSidebar: () => void;
   logoutUser: () => Promise<void>;
+  role: 'admin' | 'user';
+  setRole: React.Dispatch<React.SetStateAction<'admin' | 'user'>>;
 };
 const initialState: InitialStateType = {
   showSidebar: false,
@@ -17,6 +19,8 @@ const initialState: InitialStateType = {
   toggleDarkMode: () => {},
   toggleSidebar: () => {},
   logoutUser: async () => {},
+  setRole: () => {},
+  role: 'user',
 };
 
 // eslint-disable-next-line react-refresh/only-export-components
@@ -29,6 +33,7 @@ type Props = {
 const DashboardProvider = ({ children }: Props) => {
   const [showSidebar, setShowSidebar] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const [role, setRole] = useState<'admin' | 'user'>('user');
   const navigate = useNavigate();
   useEffect(() => {
     const darkMode = localStorage.getItem('darkMode');
@@ -48,7 +53,6 @@ const DashboardProvider = ({ children }: Props) => {
   const logoutUser = async () => {
     try {
       const response = await apiService.get('/auth/logout');
-      console.log(response);
       if (response.status === 200) {
         return navigate('/' + ROUTES_PATHS.LOGIN);
       }
@@ -64,6 +68,8 @@ const DashboardProvider = ({ children }: Props) => {
     toggleDarkMode,
     toggleSidebar,
     logoutUser,
+    role,
+    setRole,
   };
   return (
     <DashboardContext.Provider value={value}>

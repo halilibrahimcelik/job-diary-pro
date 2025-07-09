@@ -6,12 +6,13 @@ type Props = {
   isBigSideBar?: boolean;
 };
 const Navlinks: React.FC<Props> = ({ isBigSideBar = false }) => {
-  const { toggleSidebar } = useDashboard();
+  const { toggleSidebar, role } = useDashboard();
 
   return (
     <div className='nav-links'>
       {links.map((link) => {
         const { text, path, icon } = link;
+        if (role === 'user' && text === 'admin') return null;
         return (
           <NavLink
             key={path}

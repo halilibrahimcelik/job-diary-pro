@@ -25,6 +25,7 @@ import { useDashboard } from './hooks/useDashboard';
 import { DashboardLoader } from './pages/DashboardLayout';
 import { AllJobsLoader } from './pages/AllJobs';
 import { EditJobsLoader } from './pages/EditJob';
+import { AdminLoader } from './pages/Admin';
 
 const router = createBrowserRouter([
   {
@@ -83,6 +84,7 @@ const router = createBrowserRouter([
           {
             path: ROUTES_PATHS.ADMIN,
             element: <Admin />,
+            loader: AdminLoader,
           },
         ],
       },

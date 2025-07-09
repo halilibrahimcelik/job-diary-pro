@@ -1,8 +1,4 @@
-import {
-  useParams,
-  useLoaderData,
-  type LoaderFunctionArgs,
-} from 'react-router-dom';
+import { useLoaderData, type LoaderFunctionArgs } from 'react-router-dom';
 import { AxiosError } from 'axios';
 import { apiService } from '../api/actions';
 import type { IJob, JobResponse } from '../types';
@@ -20,10 +16,7 @@ export const EditJobsLoader = async ({ params }: LoaderFunctionArgs) => {
   }
 };
 const EditJob = () => {
-  const params = useParams();
   const data = useLoaderData<IJob>();
-  console.log(params);
-  console.log(data);
   return (
     <JobForm
       submitButtonLabel='Edit'

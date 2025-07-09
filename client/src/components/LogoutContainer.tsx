@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Wrapper from '../assets/wrappers/LogoutContainer';
 import { FaUserCircle, FaCaretDown } from 'react-icons/fa';
 import { useDashboard } from '../hooks/useDashboard';
@@ -7,12 +7,17 @@ import type { UserResponse } from '../types';
 
 const LogoutContainer: React.FC = () => {
   const [showLogout, setShowLogout] = useState(false);
-  const { logoutUser } = useDashboard();
+  const { logoutUser, setRole } = useDashboard();
   const data = useLoaderData<UserResponse>();
   const toggleShowLogout = () => {
     setShowLogout(!showLogout);
   };
-
+  useEffect(() => {
+    if (data.data.role) {
+      setRole(data.data.role);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <Wrapper>
       <button
