@@ -22,8 +22,11 @@ type Props = {
 const Job: React.FC<Props> = ({ job }) => {
   const formattedDate = format(new Date(job.createdAt), 'MMM do, yyyy');
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [, setParams] = useSearchParams();
+  const [params, setParams] = useSearchParams();
   const openModal = () => {
+    const newParams = new URLSearchParams(params);
+    newParams.delete('jobDeleted');
+    setParams(newParams);
     setIsModalOpen(true);
   };
   const closeModal = () => setIsModalOpen(false);
