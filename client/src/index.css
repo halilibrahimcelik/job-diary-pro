@@ -191,6 +191,9 @@ ul {
   transition: var(--transition);
   text-transform: capitalize;
   display: inline-block;
+  a {
+    color: inherit;
+  }
 }
 .btn-outline {
   color: var(--primary-500);

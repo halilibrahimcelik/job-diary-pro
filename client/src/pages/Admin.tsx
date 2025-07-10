@@ -7,6 +7,7 @@ import StatItem from '../assets/wrappers/StatItem';
 import { FiUsers } from 'react-icons/fi';
 import { PiSuitcase } from 'react-icons/pi';
 import { useDashboard } from '../hooks/useDashboard';
+import { COLORS } from '../constants';
 
 type AdminStatType = {
   jobs: number;
@@ -34,7 +35,10 @@ const Admin = () => {
 
   return (
     <CustomWrapper>
-      <StatItem bcg={'#64f58d4e'} color={isDarkMode ? '#64F58D' : '#18662d'}>
+      <StatItem
+        bcg={COLORS['green-400']}
+        color={isDarkMode ? COLORS['green-100'] : COLORS['green-900']}
+      >
         <header>
           <div className='count'>{data?.users}</div>
 
@@ -44,7 +48,10 @@ const Admin = () => {
         </header>
         <h2> Users </h2>
       </StatItem>
-      <StatItem bcg='#de9cfb' color={isDarkMode ? '#F5E5FC' : '#78279a'}>
+      <StatItem
+        bcg={COLORS['purple-400']}
+        color={isDarkMode ? COLORS['purple-100'] : COLORS['purple-900']}
+      >
         <header>
           <div>
             <div className='count'>{data?.jobs}</div>
