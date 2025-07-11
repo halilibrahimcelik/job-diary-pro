@@ -125,7 +125,10 @@ const DashboardChart: React.FC<Props> = ({ data }) => {
             }}
           >
             <XAxis dataKey='month' />
-            <YAxis />
+            <YAxis
+              tickFormatter={(value) => Math.floor(value).toString()}
+              domain={[0, 'dataMax']}
+            />
             <Legend />
             <Tooltip
               labelStyle={{
@@ -164,7 +167,7 @@ const DashboardChart: React.FC<Props> = ({ data }) => {
             }}
           >
             <XAxis dataKey='month' />
-            <YAxis />
+            <YAxis tickFormatter={(value) => Math.floor(value).toString()} />
             <Legend />
             <Tooltip
               labelStyle={{
