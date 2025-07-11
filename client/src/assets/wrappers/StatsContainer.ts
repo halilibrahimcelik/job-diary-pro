@@ -10,5 +10,8 @@ const Wrapper = styled.section`
   @media (min-width: 1120px) {
     grid-template-columns: 1fr 1fr 1fr;
   }
+  .col-span-3 {
+    grid-column: span 3;
+  }
 `;
 export default Wrapper;

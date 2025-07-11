@@ -23,6 +23,9 @@ export const COLORS = {
   'yellewGreen-900': '#abce4b',
   'yellowGreen-100': '#e0fa98',
   'yellowGreen-400': '#e0fa98a8',
+  'orange-400': '#fd965e',
+  'orange-100': '#fd965e75',
+  'orange-200': '#f59e0b',
 };
 
 export type RoutePaths = typeof ROUTES_PATHS;

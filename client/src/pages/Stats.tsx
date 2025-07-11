@@ -10,6 +10,7 @@ import { MdPeopleOutline } from 'react-icons/md';
 import { VscArchive } from 'react-icons/vsc';
 import { useDashboard } from '../hooks/useDashboard';
 import { COLORS } from '../constants';
+import DashboardChart from '../components/DashboardChart';
 
 export const StatsLoader = async () => {
   try {
@@ -33,8 +34,8 @@ const Stats = () => {
   return (
     <Wrapper>
       <StatItem
-        bcg={COLORS['green-400']}
-        color={isDarkMode ? COLORS['green-100'] : COLORS['green-900']}
+        bcg={COLORS['orange-100']}
+        color={isDarkMode ? COLORS['orange-200'] : COLORS['orange-400']}
       >
         <header>
           <div>
@@ -44,7 +45,7 @@ const Stats = () => {
             <PiReadCvLogo />
           </div>
         </header>
-        <h2> Applied </h2>
+        <h2> Pending </h2>
       </StatItem>
       <StatItem
         bcg={COLORS['yellowGreen-400']}
@@ -54,7 +55,7 @@ const Stats = () => {
       >
         <header>
           <div>
-            <div className='count'>{declinedJobs.length}</div>
+            <div className='count'>{interviewedJobs.length}</div>
           </div>
           <div className='icon'>
             <MdPeopleOutline />
@@ -68,7 +69,7 @@ const Stats = () => {
       >
         <header>
           <div>
-            <div className='count'>{interviewedJobs.length}</div>
+            <div className='count'>{declinedJobs.length}</div>
           </div>
           <div className='icon'>
             <VscArchive />
@@ -76,6 +77,9 @@ const Stats = () => {
         </header>
         <h2> Declined </h2>
       </StatItem>
+      <div className='col-span-3 mt-4'>
+        <DashboardChart data={data} />
+      </div>
     </Wrapper>
   );
 };
