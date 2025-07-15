@@ -1,10 +1,14 @@
-import axios, { AxiosError } from 'axios';
+import { AxiosError } from 'axios';
 import { redirect, type ActionFunction } from 'react-router-dom';
 import ApiService from '../../utils/apiClient';
 import { ROUTES_PATHS } from '../../constants';
 export const apiService = new ApiService('http://localhost:8080/api/v1');
 import { toast } from 'sonner';
-import type { ICreateJobResponse, JobSingleResponse } from '../../types';
+import type {
+  ICreateJobResponse,
+  JobSingleResponse,
+  UserResponse,
+} from '../../types';
 
 export const registerAction: ActionFunction = async ({ request }) => {
   try {
@@ -121,7 +125,7 @@ export const updateUserAction: ActionFunction = async ({ request }) => {
   //   }})
   try {
     const data = await request.formData();
-    //  const formData = Object.fromEntries(data);
+    const formData = Object.fromEntries(data);
     const imageFile = data.get('image') as File;
     let imageUrl = '';
 
@@ -139,10 +143,28 @@ export const updateUserAction: ActionFunction = async ({ request }) => {
           },
         }
       );
-      console.log(imageUploadResponse);
-      if (imageUploadResponse.status === 200) {
-        // imageUrl = imageUploadResponse.data.imageUrl;
-        console.log(imageUploadResponse.data);
+
+      if (imageUploadResponse.status === 201) {
+        const data = imageUploadResponse.data as {
+          message: string;
+          imageUrl: string;
+        };
+        imageUrl = data.imageUrl;
+      }
+
+      const newData = { ...formData };
+      delete newData.image;
+      if (imageUrl) {
+        newData.image = imageUrl;
+      }
+      console.log(newData);
+      console.log(imageUrl, 'imageUrl');
+      const response = await apiService.patch<UserResponse>(
+        '/users/update-user',
+        newData
+      );
+      if (response.status === 200) {
+        toast.success('Your profile succesfully updated!!🎉🎉🎉🎉');
       }
     }
   } catch (error) {

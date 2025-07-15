@@ -75,7 +75,7 @@ export const uploadUserImage = async (
 
     res.status(StatusCodes.CREATED).json({
       message: 'Image Uploaded!',
-      data: imageUrl,
+      imageUrl,
     });
   } catch (error) {
     next(error);
