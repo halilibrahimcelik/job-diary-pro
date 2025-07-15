@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import { IJob, Job } from '../models/JobModel.js';
 import { StatusCodes } from 'http-status-codes';
 import { FilterQuery, SortOrder } from 'mongoose';
+import { STATUS_CODES } from 'http';
 export const getAllJobs = async (
   req: Request,
   res: Response,
@@ -74,6 +75,26 @@ export const getAllJobs = async (
       total,
       page,
       totalPage: Math.ceil(total / limit),
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getAllJobsWithoutFilters = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const userId = req.user?.userId;
+    const jobs = await Job.find({
+      createdBy: userId,
+    }).sort([['createdAt', -1]]);
+
+    res.status(StatusCodes.OK).send({
+      message: 'Data send successfully!!',
+      data: jobs,
     });
   } catch (error) {
     next(error);

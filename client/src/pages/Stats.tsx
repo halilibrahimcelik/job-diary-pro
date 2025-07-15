@@ -14,7 +14,7 @@ import DashboardChart from '../components/DashboardChart';
 
 export const StatsLoader = async () => {
   try {
-    const response = await apiService.get<JobResponse>('/jobs');
+    const response = await apiService.get<JobResponse>('/jobs/get-all');
     if (response.status === 200) {
       return response.data.data;
     }

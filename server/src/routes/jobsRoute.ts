@@ -4,6 +4,7 @@ import {
   deletesingleJob,
   editSingleJob,
   getAllJobs,
+  getAllJobsWithoutFilters,
   getSingleJob,
 } from '../controllers/jobsController.js';
 import {
@@ -15,6 +16,7 @@ import {
 const router = Router();
 
 router.get('', getAllJobs);
+router.get('/get-all', getAllJobsWithoutFilters);
 router.post('', validateCreateJob, createJob);
 router.get('/:jobId', validateIdParam, getSingleJob);
 router.patch('/:jobId', validateIdParam, validateEditJob, editSingleJob);

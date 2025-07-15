@@ -106,9 +106,33 @@ const DashboardChart: React.FC<Props> = ({ data }) => {
       return months.indexOf(a.month) - months.indexOf(b.month);
     });
   };
+  // Calculate max value for responsive ticks
+  const getMaxValue = () => {
+    if (chartData.length === 0) return 6;
 
+    const maxValue = Math.max(
+      ...chartData.map((month) =>
+        Math.max(month.pending, month.interview, month.declined)
+      )
+    );
+
+    // Ensure minimum of 6, then round up to next even number
+    const minTicks = 6;
+    const actualMax = Math.max(maxValue, minTicks);
+    return actualMax % 2 === 0 ? actualMax : actualMax + 1;
+  };
+
+  // Generate tick values (0, 2, 4, 6, 8, 10, etc.)
+  const generateTicks = () => {
+    const maxValue = getMaxValue();
+    const ticks = [];
+    for (let i = 0; i <= maxValue; i += 2) {
+      ticks.push(i);
+    }
+    return ticks;
+  };
   const chartData = createMonthlyData();
-  console.log(chartData);
+  const yAxisTicks = generateTicks();
 
   return (
     <Wrapper>
@@ -126,7 +150,9 @@ const DashboardChart: React.FC<Props> = ({ data }) => {
           >
             <XAxis dataKey='month' />
             <YAxis
-              tickFormatter={(value) => Math.floor(value).toString()}
+              ticks={yAxisTicks}
+              allowDecimals={false}
+              // tickFormatter={(value) => Math.floor(value).toString()}
               domain={[0, 'dataMax']}
             />
             <Legend />
@@ -167,7 +193,11 @@ const DashboardChart: React.FC<Props> = ({ data }) => {
             }}
           >
             <XAxis dataKey='month' />
-            <YAxis tickFormatter={(value) => Math.floor(value).toString()} />
+            <YAxis
+              ticks={yAxisTicks}
+
+              // tickFormatter={(value) => Math.floor(value).toString()}
+            />
             <Legend />
             <Tooltip
               labelStyle={{
