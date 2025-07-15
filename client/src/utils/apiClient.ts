@@ -58,23 +58,25 @@ class ApiService {
   }
   public async put<T>(
     url: string,
-    data?: Record<string, unknown> | FormData | undefined
+    data?: Record<string, unknown> | FormData | undefined,
+    config?: AxiosRequestConfig<Record<string, unknown>> | undefined
   ): Promise<AxiosResponse<T>> {
-    const response = await this.axiosInstance.put(url, data);
+    const response = await this.axiosInstance.put(url, data, config);
     return response;
   }
   public async patch<T>(
     url: string,
-    data?: Record<string, unknown>
+    data?: Record<string, unknown> | FormData | undefined,
+    config?: AxiosRequestConfig<Record<string, unknown>> | undefined
   ): Promise<AxiosResponse<T>> {
-    const response = await this.axiosInstance.patch(url, data);
+    const response = await this.axiosInstance.patch(url, data, config);
     return response;
   }
   public async delete<T>(
     url: string,
-    data?: Record<string, unknown>
+    config?: AxiosRequestConfig<Record<string, unknown>> | undefined
   ): Promise<AxiosResponse<T>> {
-    const response = await this.axiosInstance.delete(url, data);
+    const response = await this.axiosInstance.delete(url, config);
     return response;
   }
 }
