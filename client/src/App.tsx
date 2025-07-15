@@ -19,6 +19,7 @@ import {
   editJobAction,
   loginAction,
   registerAction,
+  updateUserAction,
 } from './api/actions';
 import { Toaster } from 'sonner';
 import { useDashboard } from './hooks/useDashboard';
@@ -27,6 +28,7 @@ import { AllJobsLoader } from './pages/AllJobs';
 import { EditJobsLoader } from './pages/EditJob';
 import { AdminLoader } from './pages/Admin';
 import { StatsLoader } from './pages/Stats';
+import { ProfileLoader } from './pages/Profile';
 
 const router = createBrowserRouter([
   {
@@ -82,6 +84,8 @@ const router = createBrowserRouter([
           {
             path: ROUTES_PATHS.PROFILE,
             element: <Profile />,
+            loader: ProfileLoader,
+            action: updateUserAction,
           },
           {
             path: ROUTES_PATHS.ADMIN,

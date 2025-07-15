@@ -12,7 +12,7 @@ export const getCurrentUser = async (
     const user = await User.findById(req.user?.userId);
     const userWithoutPassword = user?.toJSON();
     res.status(StatusCodes.OK).json({
-      message: 'get current user',
+      message: 'You have succesfully get the current user information!',
       data: userWithoutPassword,
     });
   } catch (error) {

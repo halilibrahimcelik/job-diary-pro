@@ -113,3 +113,18 @@ export const editJobAction: ActionFunction = async ({ request, params }) => {
     }
   }
 };
+
+export const updateUserAction: ActionFunction = async ({ request }) => {
+  const data = await request.formData();
+  const formData = Object.fromEntries(data);
+  try {
+    console.log(formData);
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      toast.error(error.response?.data.message);
+      return error.response?.data;
+    } else {
+      return error;
+    }
+  }
+};
