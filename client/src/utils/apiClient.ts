@@ -3,6 +3,7 @@ import axios, {
   type AxiosResponse,
   AxiosError,
   type InternalAxiosRequestConfig,
+  type AxiosRequestConfig,
 } from 'axios';
 
 class ApiService {
@@ -49,14 +50,15 @@ class ApiService {
   }
   public async post<T>(
     url: string,
-    data?: Record<string, unknown>
+    data?: Record<string, unknown> | FormData | undefined,
+    config?: AxiosRequestConfig<Record<string, unknown>> | undefined
   ): Promise<AxiosResponse<T>> {
-    const response = await this.axiosInstance.post(url, data);
+    const response = await this.axiosInstance.post(url, data, config);
     return response;
   }
   public async put<T>(
     url: string,
-    data?: Record<string, unknown>
+    data?: Record<string, unknown> | FormData | undefined
   ): Promise<AxiosResponse<T>> {
     const response = await this.axiosInstance.put(url, data);
     return response;

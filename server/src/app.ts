@@ -14,7 +14,7 @@ import { authenticateUser } from './middleware/authMiddleware.js';
 import cookieParser from 'cookie-parser';
 dotenv.config();
 const app = express();
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT;
 
 //Adding middlewares
 const allowedOrigin = process.env.CLIENT_URL || 'http://localhost:3000'; // Default to localhost for development

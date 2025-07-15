@@ -26,7 +26,11 @@ const Profile = () => {
   return (
     <Wrapper>
       <h2> Your Profile</h2>
-      <Form method='POST' className='form-component'>
+      <Form
+        method='POST'
+        className='form-component'
+        encType='multipart/form-data'
+      >
         <FormRow
           label='Image'
           name='image'

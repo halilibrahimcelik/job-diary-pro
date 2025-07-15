@@ -1,4 +1,4 @@
-import { AxiosError } from 'axios';
+import axios, { AxiosError } from 'axios';
 import { redirect, type ActionFunction } from 'react-router-dom';
 import ApiService from '../../utils/apiClient';
 import { ROUTES_PATHS } from '../../constants';
@@ -115,10 +115,36 @@ export const editJobAction: ActionFunction = async ({ request, params }) => {
 };
 
 export const updateUserAction: ActionFunction = async ({ request }) => {
-  const data = await request.formData();
-  const formData = Object.fromEntries(data);
+  // const response=await apiService.patch("/users/update-user",formData,{
+  //   headers: {
+  //     'Content-Type': 'multipart/form-data'
+  //   }})
   try {
-    console.log(formData);
+    const data = await request.formData();
+    //  const formData = Object.fromEntries(data);
+    const imageFile = data.get('image') as File;
+    let imageUrl = '';
+
+    if (imageFile && imageFile.size > 0) {
+      // First, upload the image to S3
+      const imageFormData = new FormData();
+      imageFormData.append('image', imageFile);
+
+      const imageUploadResponse = await apiService.post(
+        '/users/upload-image',
+        imageFormData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        }
+      );
+      console.log(imageUploadResponse);
+      if (imageUploadResponse.status === 200) {
+        // imageUrl = imageUploadResponse.data.imageUrl;
+        console.log(imageUploadResponse.data);
+      }
+    }
   } catch (error) {
     if (error instanceof AxiosError) {
       toast.error(error.response?.data.message);

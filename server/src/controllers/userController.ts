@@ -2,6 +2,8 @@ import { StatusCodes } from 'http-status-codes';
 import { User } from '../models/UserModel.js';
 import { Job } from '../models/JobModel.js';
 import { Request, Response, NextFunction } from 'express';
+import { s3Client } from '../utils/s3.js';
+import { PutObjectCommand } from '@aws-sdk/client-s3';
 
 export const getCurrentUser = async (
   req: Request,
@@ -43,4 +45,39 @@ export const updateUser = async (
   res.status(StatusCodes.OK).json({
     message: 'update User',
   });
+};
+
+export const uploadUserImage = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    if (!req.file) {
+      res.status(StatusCodes.BAD_REQUEST).json({
+        message: 'No Image file provided',
+      });
+    }
+    const file = req.file!;
+    const fileName = `user-images/${req.user?.userId}-${Date.now()}-${
+      file.originalname
+    }`;
+    const uploadCommand = new PutObjectCommand({
+      Bucket: process.env.BUCKET_NAME!,
+      Key: fileName,
+      Body: file.buffer,
+      ContentType: file.mimetype,
+    });
+
+    await s3Client.send(uploadCommand);
+
+    const imageUrl = `https://${process.env.BUCKET_NAME}.s3.${process.env.BUCKET_REGION}.amazonaws.com/${fileName}`;
+
+    res.status(StatusCodes.CREATED).json({
+      message: 'Image Uploaded!',
+      data: imageUrl,
+    });
+  } catch (error) {
+    next(error);
+  }
 };
