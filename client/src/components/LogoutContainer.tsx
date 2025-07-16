@@ -25,7 +25,15 @@ const LogoutContainer: React.FC = () => {
         type='button'
         className='btn logout-btn'
       >
-        <FaUserCircle className='img' />
+        {data.data.image ? (
+          <img
+            className='img'
+            src={data.data.image}
+            alt={data.data.name + ' ' + 'image'}
+          />
+        ) : (
+          <FaUserCircle className='img' />
+        )}
         {data.data.name}
         <FaCaretDown />
       </button>
