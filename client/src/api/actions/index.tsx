@@ -151,21 +151,18 @@ export const updateUserAction: ActionFunction = async ({ request }) => {
         };
         imageUrl = data.imageUrl;
       }
-
-      const newData = { ...formData };
-      delete newData.image;
-      if (imageUrl) {
-        newData.image = imageUrl;
-      }
-      console.log(newData);
-      console.log(imageUrl, 'imageUrl');
-      const response = await apiService.patch<UserResponse>(
-        '/users/update-user',
-        newData
-      );
-      if (response.status === 200) {
-        toast.success('Your profile succesfully updated!!🎉🎉🎉🎉');
-      }
+    }
+    const newData = { ...formData };
+    delete newData.image;
+    if (imageUrl) {
+      newData.image = imageUrl;
+    }
+    const response = await apiService.patch<UserResponse>(
+      '/users/update-user',
+      newData
+    );
+    if (response.status === 200) {
+      toast.success('Your profile succesfully updated!!🎉🎉🎉🎉');
     }
   } catch (error) {
     if (error instanceof AxiosError) {

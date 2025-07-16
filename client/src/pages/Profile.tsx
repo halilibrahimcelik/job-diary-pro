@@ -5,7 +5,32 @@ import { AxiosError } from 'axios';
 import { toast } from 'sonner';
 import { apiService } from '../api/actions';
 import type { IUser, UserResponse } from '../types';
-
+import { useRef, useState } from 'react';
+import styled from 'styled-components';
+import { FaXmark } from 'react-icons/fa6';
+import placeholderImage from '../assets/images/placeholder-image.jpg';
+const ImageWrapper = styled.div`
+  position: relative;
+  width: fit-content;
+  margin: 40px 0;
+  img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 100%;
+  }
+  button {
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 4px;
+    cursor: pointer;
+    position: absolute;
+    top: -10px;
+    right: -10px;
+  }
+`;
 export const ProfileLoader = async () => {
   try {
     const response = await apiService.get<UserResponse>('/users/current-user');
@@ -21,11 +46,46 @@ export const ProfileLoader = async () => {
 };
 const Profile = () => {
   const { state } = useNavigation();
+  const imageRef = useRef<HTMLInputElement | null>(null);
   const data = useLoaderData<IUser>();
+  const [selectedImage, setSelectedImage] = useState<File | undefined>();
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setSelectedImage(e.target.files[0]);
+    }
+  };
+
+  const removeSelectedImage = () => {
+    setSelectedImage(undefined);
+    if (imageRef.current && imageRef.current.value) {
+      imageRef.current.value = '';
+    }
+  };
 
   return (
     <Wrapper>
       <h2> Your Profile</h2>
+      {
+        <ImageWrapper>
+          {
+            <img
+              src={
+                selectedImage
+                  ? URL.createObjectURL(selectedImage)
+                  : data.image
+                  ? data.image
+                  : placeholderImage
+              }
+              alt='Thumb'
+            />
+          }
+          {selectedImage && (
+            <button className='btn-outline' onClick={removeSelectedImage}>
+              <FaXmark size={24} />
+            </button>
+          )}
+        </ImageWrapper>
+      }
       <Form
         method='POST'
         className='form-component'
@@ -36,7 +96,9 @@ const Profile = () => {
           name='image'
           accept='image/*'
           type='file'
+          ref={imageRef}
           id='file'
+          onChange={handleImageChange}
         />
         <FormRow
           label='Name'
