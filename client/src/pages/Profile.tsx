@@ -30,6 +30,30 @@ const ImageWrapper = styled.div`
     top: -10px;
     right: -10px;
   }
+  .img-wrapper {
+    display: flex;
+    flex-direction: column;
+    /* justify-content: center;
+    align-items: center; */
+    gap: 8px;
+    p {
+      font-size: 14px;
+    }
+  }
+  @media screen and (max-width: 600px) {
+    img {
+      width: 100px;
+      height: 100px;
+    }
+    .img-wrapper {
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: flex-start;
+    }
+    .img-wrapper p {
+      font-size: 12px;
+    }
+  }
 `;
 export const ProfileLoader = async () => {
   try {
@@ -68,16 +92,19 @@ const Profile = () => {
       {
         <ImageWrapper>
           {
-            <img
-              src={
-                selectedImage
-                  ? URL.createObjectURL(selectedImage)
-                  : data.image
-                  ? data.image
-                  : placeholderImage
-              }
-              alt='Thumb'
-            />
+            <div className='img-wrapper'>
+              <img
+                src={
+                  selectedImage
+                    ? URL.createObjectURL(selectedImage)
+                    : data.image
+                    ? data.image
+                    : placeholderImage
+                }
+                alt='Thumb'
+              />{' '}
+              <p>Maximum allowed size: 0.5MB</p>
+            </div>
           }
           {selectedImage && (
             <button className='btn-outline' onClick={removeSelectedImage}>
