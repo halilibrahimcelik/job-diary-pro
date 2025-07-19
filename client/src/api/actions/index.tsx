@@ -119,10 +119,6 @@ export const editJobAction: ActionFunction = async ({ request, params }) => {
 };
 
 export const updateUserAction: ActionFunction = async ({ request }) => {
-  // const response=await apiService.patch("/users/update-user",formData,{
-  //   headers: {
-  //     'Content-Type': 'multipart/form-data'
-  //   }})
   try {
     const data = await request.formData();
     const formData = Object.fromEntries(data);
@@ -133,7 +129,10 @@ export const updateUserAction: ActionFunction = async ({ request }) => {
       // First, upload the image to S3
       const imageFormData = new FormData();
       imageFormData.append('image', imageFile);
-
+      if (imageFile.size > 500000) {
+        toast.warning('Image size is too large!');
+        return null;
+      }
       const imageUploadResponse = await apiService.post(
         '/users/upload-image',
         imageFormData,
@@ -161,9 +160,11 @@ export const updateUserAction: ActionFunction = async ({ request }) => {
       '/users/update-user',
       newData
     );
+
     if (response.status === 200) {
       toast.success('Your profile succesfully updated!!🎉🎉🎉🎉');
     }
+    return null;
   } catch (error) {
     if (error instanceof AxiosError) {
       toast.error(error.response?.data.message);
