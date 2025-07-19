@@ -28,9 +28,27 @@ export const StatsLoader = async () => {
 const Stats = () => {
   const data = useLoaderData<IJob[]>();
   const { isDarkMode } = useDashboard();
-  const pendingJobs = data.filter((job) => job.jobStatus === 'pending');
-  const declinedJobs = data.filter((job) => job.jobStatus === 'declined');
-  const interviewedJobs = data.filter((job) => job.jobStatus === 'interview');
+  const { pendingJobs, declinedJobs, interviewedJobs } = data.reduce(
+    (acc, job) => {
+      switch (job.jobStatus) {
+        case 'pending':
+          acc.pendingJobs.push(job);
+          break;
+        case 'declined':
+          acc.declinedJobs.push(job);
+          break;
+        case 'interview':
+          acc.interviewedJobs.push(job);
+          break;
+      }
+      return acc;
+    },
+    {
+      pendingJobs: [] as IJob[],
+      declinedJobs: [] as IJob[],
+      interviewedJobs: [] as IJob[],
+    }
+  );
   return (
     <Wrapper>
       <StatItem

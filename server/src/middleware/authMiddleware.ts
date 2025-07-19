@@ -34,7 +34,7 @@ export const checkTesterRole = (
   const { role } = verifyJWT(token);
   if (role === 'tester') {
     throw new ForbiddenError(
-      "You can't do this action since this is a Demo account. To Acquire this feature please register! "
+      'This action is not available for Demo accounts. Please register to access this feature.'
     );
   }
   next();
