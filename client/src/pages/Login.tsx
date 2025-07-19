@@ -19,9 +19,15 @@ const Login = () => {
 
       const response = await apiService.post('/auth/login', data);
       if (response.status === 200) {
-        <span>
-          ✨ You have entered the Demo Realm! Enjoy exploring Job Tracker ✨
-        </span>;
+        toast.message(
+          <span>
+            🎉 Welcome to the Demo Account! Feel free to explore all Job Tracker
+            features 🎉
+          </span>,
+          {
+            duration: 6000,
+          }
+        );
         return navigate('/' + ROUTES_PATHS.DASHBOARD);
       }
       return null;
