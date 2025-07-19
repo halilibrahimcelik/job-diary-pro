@@ -216,7 +216,7 @@ const DashboardChart: React.FC<Props> = ({ data }) => {
               type='monotone'
               dataKey='interview'
               stackId='1'
-              stroke={COLORS['yellowGreen-400']}
+              stroke={COLORS['yellewGreen-900']}
               fill={COLORS['yellewGreen-900']}
             />
             <Area
