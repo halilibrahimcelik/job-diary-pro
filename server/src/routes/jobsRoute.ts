@@ -27,5 +27,5 @@ router.patch(
   validateEditJob,
   editSingleJob
 );
-router.delete('/:jobId', validateIdParam, deletesingleJob);
+router.delete('/:jobId', checkTesterRole, validateIdParam, deletesingleJob);
 export default router;
