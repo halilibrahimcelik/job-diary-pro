@@ -7,7 +7,7 @@ export interface IUser {
   lastName: string;
   location: string;
   image: string | undefined;
-  role: 'admin' | 'user';
+  role: 'admin' | 'user' | 'tester';
 }
 const UserSchema = new Schema<IUser>(
   {
@@ -33,7 +33,7 @@ const UserSchema = new Schema<IUser>(
     },
     role: {
       type: String,
-      enum: ['admin', 'user'],
+      enum: ['admin', 'user', 'tester'],
       default: 'user',
     },
   },

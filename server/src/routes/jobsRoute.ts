@@ -12,13 +12,20 @@ import {
   validateEditJob,
   validateIdParam,
 } from '../middleware/validationMiddleware.js';
+import { checkTesterRole } from '../middleware/authMiddleware.js';
 
 const router = Router();
 
 router.get('', getAllJobs);
 router.get('/get-all', getAllJobsWithoutFilters);
-router.post('', validateCreateJob, createJob);
+router.post('', checkTesterRole, validateCreateJob, createJob);
 router.get('/:jobId', validateIdParam, getSingleJob);
-router.patch('/:jobId', validateIdParam, validateEditJob, editSingleJob);
+router.patch(
+  '/:jobId',
+  checkTesterRole,
+  validateIdParam,
+  validateEditJob,
+  editSingleJob
+);
 router.delete('/:jobId', validateIdParam, deletesingleJob);
 export default router;

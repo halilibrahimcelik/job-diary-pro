@@ -6,7 +6,10 @@ import {
   uploadUserImage,
 } from '../controllers/userController.js';
 import { validateUpdateUser } from '../middleware/validationMiddleware.js';
-import { authorizedPermissions } from '../middleware/authMiddleware.js';
+import {
+  authorizedPermissions,
+  checkTesterRole,
+} from '../middleware/authMiddleware.js';
 import { upload } from '../middleware/multerMiddleware.js';
 
 const router = Router();
@@ -16,7 +19,12 @@ router.get('/admin/app-stats', [
   authorizedPermissions('admin'),
   getApplicationStats,
 ]);
-router.post('/upload-image', upload.single('image'), uploadUserImage);
-router.patch('/update-user', validateUpdateUser, updateUser);
+router.post(
+  '/upload-image',
+  checkTesterRole,
+  upload.single('image'),
+  uploadUserImage
+);
+router.patch('/update-user', checkTesterRole, validateUpdateUser, updateUser);
 
 export default router;

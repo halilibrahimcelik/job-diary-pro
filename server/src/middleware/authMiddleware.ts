@@ -18,10 +18,26 @@ export const authenticateUser = (
     const { userId, role } = verifyJWT(token);
 
     req.user = { userId, role };
+
     next();
   } catch (error) {
     throw new UnauthenticatedError('authentication error no token found');
   }
+};
+
+export const checkTesterRole = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { token } = req.cookies;
+  const { role } = verifyJWT(token);
+  if (role === 'tester') {
+    throw new ForbiddenError(
+      "You can't do this action since this is a Demo account. To Acquire this feature please register! "
+    );
+  }
+  next();
 };
 
 export const authorizedPermissions = (...roles: any) => {

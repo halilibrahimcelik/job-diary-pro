@@ -1,12 +1,40 @@
-import { Form, Link, useNavigation } from 'react-router-dom';
+import { Form, Link, useNavigate, useNavigation } from 'react-router-dom';
 import Wrapper from '../assets/wrappers/RegisterAndLoginPage';
 import { Logo } from '../components';
 import FormRow from '../components/FormRow';
 import { ROUTES_PATHS } from '../constants';
+import { apiService } from '../api/actions';
+import { toast } from 'sonner';
+import { AxiosError } from 'axios';
 
 const Login = () => {
   const { state } = useNavigation();
+  const navigate = useNavigate();
+  const handleTestLogin = async () => {
+    try {
+      const data = {
+        email: 'test@jobtracker.com',
+        password: 'TesterJobTracker',
+      };
 
+      const response = await apiService.post('/auth/login', data);
+      if (response.status === 200) {
+        <span>
+          ✨ You have entered the Demo Realm! Enjoy exploring Job Tracker ✨
+        </span>;
+        return navigate('/' + ROUTES_PATHS.DASHBOARD);
+      }
+      return null;
+    } catch (error) {
+      console.log(error);
+      if (error instanceof AxiosError) {
+        toast.error(error.response?.data.message);
+        return error.response?.data;
+      } else {
+        return error;
+      }
+    }
+  };
   return (
     <Wrapper>
       <Form method='POST' className='form'>
@@ -33,7 +61,11 @@ const Login = () => {
         >
           {state === 'submitting' ? 'Logging..' : 'Login'}
         </button>
-        <button type='button' className='btn btn-block'>
+        <button
+          type='button'
+          onClick={handleTestLogin}
+          className='btn btn-block'
+        >
           explore the app
         </button>
         <p>
