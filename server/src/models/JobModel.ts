@@ -1,9 +1,16 @@
 import mongoose, { Schema, model } from 'mongoose';
 import { JobStatus, JobType, WorkModel } from '../types/index.js';
 
+interface CompanyInfo {
+  name: string;
+  logo: string;
+  domain: string;
+  fullUrl: string;
+}
+
 export interface IJob {
   position: string;
-  company: string;
+  company: CompanyInfo;
   salary?: number;
   jobStatus: JobStatus.INTERVİEW | JobStatus.DECLINED | JobStatus.PENDING;
   jobType: JobType.FULL_TIME | JobType.PART_TIME | JobType.INTERSHIP;
@@ -15,12 +22,21 @@ export interface IJob {
 const JobSchema = new Schema<IJob>(
   {
     company: {
-      type: String,
-      required: true,
+      name: {
+        type: String,
+      },
+      logo: {
+        type: String,
+      },
+      domain: {
+        type: String,
+      },
+      fullUrl: {
+        type: String,
+      },
     },
     position: {
       type: String,
-      required: true,
     },
     salary: {
       type: Number,

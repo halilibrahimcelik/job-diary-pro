@@ -1,6 +1,10 @@
-import { useState } from 'react';
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+import { useCallback, useMemo, useState } from 'react';
 import styled from 'styled-components';
 import type { CompanyInfo } from '../hooks/useCompanyInfo';
+import { debounceFn } from '../utils';
+import placeholder from '../assets/images/placeholder-image.jpg';
+import { FiExternalLink } from 'react-icons/fi';
 
 const Container = styled.div`
   display: flex;
@@ -26,6 +30,19 @@ const CompanyPreview = styled.div`
   //  background-color: var(--grey-50);
   border-radius: 0.375rem;
   border: 1px solid var(--white);
+  /* Single animation on parent - affects all children */
+  animation: slideInFade 0.4s ease-out;
+
+  @keyframes slideInFade {
+    from {
+      opacity: 0;
+      transform: translateY(-20px) scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
 `;
 
 const CompanyLogo = styled.img`
@@ -40,6 +57,7 @@ const CompanyLogo = styled.img`
 const CompanyDetails = styled.div`
   display: flex;
   flex-direction: column;
+  gap: 7px;
   flex: 1;
 `;
 
@@ -50,10 +68,18 @@ const CompanyName = styled.h1`
   font-size: 1rem;
 `;
 
-const CompanyUrl = styled.p`
+const CompanyUrl = styled.a`
   font-size: 0.875rem;
+  display: inline-flex;
+  cursor: pointer;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 4px;
   color: var(--grey-400);
   margin: 0;
+  &:hover {
+    text-decoration: underline;
+  }
   word-break: break-all;
 `;
 
@@ -78,12 +104,21 @@ const CompanyUrlInput = ({
 }: Props) => {
   const [url, setUrl] = useState<string | undefined>(defaultValue);
 
-  const handleCompanyUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const websiteUrl = e.target.value;
-    setUrl(websiteUrl);
+  const debouncedFetchCompanyInfo = useMemo(
+    //@ts-ignore
+    () => debounceFn(fetchCompanyInfo, 600),
+    [fetchCompanyInfo]
+  );
 
-    fetchCompanyInfo(websiteUrl);
-  };
+  const handleCompanyUrlChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const websiteUrl = e.target.value;
+      setUrl(websiteUrl);
+
+      debouncedFetchCompanyInfo(websiteUrl);
+    },
+    [debouncedFetchCompanyInfo]
+  );
 
   return (
     <Container>
@@ -110,12 +145,14 @@ const CompanyUrlInput = ({
             src={companyInfo.logo}
             alt={`${companyInfo.name} logo`}
             onError={(e) => {
-              e.currentTarget.src = '/placeholder-logo.png';
+              e.currentTarget.src = placeholder;
             }}
           />
           <CompanyDetails>
             <CompanyName>{companyInfo.name}</CompanyName>
-            <CompanyUrl>{url}</CompanyUrl>
+            <CompanyUrl target='_blank' href={companyInfo.fullUrl}>
+              {url} <FiExternalLink />
+            </CompanyUrl>
           </CompanyDetails>
         </CompanyPreview>
       )}

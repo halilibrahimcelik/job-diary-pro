@@ -105,6 +105,8 @@ export const createJob = async (
   next: NextFunction
 ) => {
   try {
+    // Add these debug logs at the very start of the controller
+
     const {
       company,
       position,
@@ -114,10 +116,11 @@ export const createJob = async (
       jobStatus,
       jobType,
     } = req.body as IJob;
+    console.log('After destructuring:');
 
     const newJob = new Job({
-      company,
       position,
+      company,
       salary,
       jobLocation,
       createdBy: req.user?.userId,

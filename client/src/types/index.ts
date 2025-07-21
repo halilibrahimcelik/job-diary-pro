@@ -1,3 +1,5 @@
+import type { CompanyInfo } from '../hooks/useCompanyInfo';
+
 export interface IUser {
   name: string;
   email: string;
@@ -8,7 +10,7 @@ export interface IUser {
   role: 'admin' | 'user';
 }
 export interface IJob {
-  company: string;
+  company: CompanyInfo;
   position: string;
   jobStatus: JobStatus;
   jobType: JobType;

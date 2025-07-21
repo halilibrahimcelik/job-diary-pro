@@ -9,6 +9,7 @@ import type {
   JobSingleResponse,
   UserResponse,
 } from '../../types';
+import type { CompanyInfo } from '../../hooks/useCompanyInfo';
 
 export const registerAction: ActionFunction = async ({ request }) => {
   try {
@@ -62,13 +63,30 @@ export const createJobAction: ActionFunction = async ({ request }) => {
   try {
     const formData = await request.formData();
     const data = Object.fromEntries(formData);
-    const response = await apiService.post<ICreateJobResponse>('/jobs', data);
+    const company: CompanyInfo = {
+      domain: data.companyDomain as string,
+      fullUrl: data.companyUrl as string,
+      logo: data.companyLogo as string,
+      name: data.companyName as string,
+    };
+
+    delete data.companyDomain;
+    delete data.companyName;
+    delete data.companyLogo;
+    delete data.companyUrl;
+
+    const newData = { ...data, company };
+    console.log(newData);
+    const response = await apiService.post<ICreateJobResponse>(
+      '/jobs',
+      newData
+    );
 
     if (response.status === 201) {
       toast.success(
         <span>
-          {response.data.data.position} position at {response.data.data.company}{' '}
-          <br />
+          {response.data.data.position} position at{' '}
+          {response.data.data.company.name} <br />
           has been added to your Job List{' '}
         </span>
       );
@@ -98,8 +116,8 @@ export const editJobAction: ActionFunction = async ({ request, params }) => {
       toast.success(
         <span>
           {' '}
-          {response.data.data.position} position at {response.data.data.company}{' '}
-          has been updated successfully!
+          {response.data.data.position} position at{' '}
+          {response.data.data.company.name} has been updated successfully!
         </span>
       );
       return redirect(

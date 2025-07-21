@@ -57,6 +57,11 @@ const JobForm: React.FC<Props> = ({
           name='company'
           fetchCompanyInfo={fetchCompanyInfo}
         />
+        <input name='companyDomain' hidden value={companyInfo?.domain} />
+        <input name='companyName' hidden value={companyInfo?.name} />
+        <input name='companyLogo' hidden value={companyInfo?.logo} />
+        <input name='companyUrl' hidden value={companyInfo?.fullUrl} />
+
         {/* <FormRow
           label='company'
           name='company'
