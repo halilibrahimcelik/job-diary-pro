@@ -2,7 +2,6 @@ import { Request, Response, NextFunction } from 'express';
 import { IJob, Job } from '../models/JobModel.js';
 import { StatusCodes } from 'http-status-codes';
 import { FilterQuery, SortOrder } from 'mongoose';
-import { STATUS_CODES } from 'http';
 export const getAllJobs = async (
   req: Request,
   res: Response,
