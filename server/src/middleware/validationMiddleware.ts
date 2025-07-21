@@ -41,6 +41,8 @@ export const validateTest = withValidationErrors([
 ]);
 
 export const validateCreateJob = withValidationErrors([
+  body('company.name').notEmpty().trim().withMessage('Company  is required'),
+
   body('position')
     .notEmpty()
     .trim()

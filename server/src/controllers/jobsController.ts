@@ -116,7 +116,6 @@ export const createJob = async (
       jobStatus,
       jobType,
     } = req.body as IJob;
-    console.log('After destructuring:');
 
     const newJob = new Job({
       position,
