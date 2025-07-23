@@ -8,7 +8,6 @@ import CompanyUrlInput from './CompanyUrlInput';
 
 type Props = {
   position?: string;
-  company?: string;
   jobLocation?: string;
   jobType?: string;
   jobStatus?: string;
@@ -17,7 +16,6 @@ type Props = {
   submittingLabel: string;
 };
 const JobForm: React.FC<Props> = ({
-  company,
   jobLocation,
   jobStatus,
   jobType,
@@ -52,7 +50,6 @@ const JobForm: React.FC<Props> = ({
           companyInfo={companyInfo!}
           loading={loading}
           id='company'
-          defaultValue={company ? company : ''}
           label='company website'
           name='company'
           fetchCompanyInfo={fetchCompanyInfo}

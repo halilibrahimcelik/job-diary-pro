@@ -54,7 +54,7 @@ const Job: React.FC<Props> = ({ job }) => {
         <div className='main-icon'>{job.position.split('')[0]}</div>
         <div className='info'>
           <h5>{job.position} </h5>
-          <p> {job.company} </p>
+          <p> {job?.company?.name} </p>
         </div>
       </header>
       <div className='content'>

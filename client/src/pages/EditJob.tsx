@@ -21,7 +21,6 @@ const EditJob = () => {
     <JobForm
       submitButtonLabel='Edit'
       submittingLabel='Editting...'
-      company={data.company}
       jobLocation={data.jobLocation}
       jobStatus={data.jobStatus}
       jobType={data.jobType}
