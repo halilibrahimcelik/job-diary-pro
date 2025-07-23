@@ -2,7 +2,9 @@ import { AxiosError } from 'axios';
 import { redirect, type ActionFunction } from 'react-router-dom';
 import ApiService from '../../utils/apiClient';
 import { ROUTES_PATHS } from '../../constants';
-export const apiService = new ApiService('http://localhost:8080/api/v1');
+export const apiService = new ApiService(
+  'https://job-tracking-app-vqoy.onrender.com/api/v1'
+);
 import { toast } from 'sonner';
 import type {
   ICreateJobResponse,
