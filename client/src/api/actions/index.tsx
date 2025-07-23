@@ -76,7 +76,6 @@ export const createJobAction: ActionFunction = async ({ request }) => {
     delete data.companyUrl;
 
     const newData = { ...data, company };
-    console.log(newData);
     const response = await apiService.post<ICreateJobResponse>(
       '/jobs',
       newData
@@ -105,12 +104,25 @@ export const createJobAction: ActionFunction = async ({ request }) => {
 };
 
 export const editJobAction: ActionFunction = async ({ request, params }) => {
-  const data = await request.formData();
-  const formData = Object.fromEntries(data);
+  const formData = await request.formData();
+  const data = Object.fromEntries(formData);
+  const company: CompanyInfo = {
+    domain: data.companyDomain as string,
+    fullUrl: data.companyUrl as string,
+    logo: data.companyLogo as string,
+    name: data.companyName as string,
+  };
+
+  delete data.companyDomain;
+  delete data.companyName;
+  delete data.companyLogo;
+  delete data.companyUrl;
+  const newData = { ...data, company };
+
   try {
     const response = await apiService.patch<JobSingleResponse>(
       '/jobs/' + params.jobId,
-      formData
+      newData
     );
     if (response.status === 201) {
       toast.success(

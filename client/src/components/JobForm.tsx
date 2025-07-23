@@ -3,12 +3,13 @@ import { Form, useNavigation } from 'react-router-dom';
 import { FormRow } from '../components';
 import FormSelect from '../components/FormSelect';
 import Wrapper from '../assets/wrappers/DashboardFormPage';
-import { useCompanyInfo } from '../hooks/useCompanyInfo';
+import { useCompanyInfo, type CompanyInfo } from '../hooks/useCompanyInfo';
 import CompanyUrlInput from './CompanyUrlInput';
 
 type Props = {
   position?: string;
   jobLocation?: string;
+  company?: CompanyInfo;
   jobType?: string;
   jobStatus?: string;
   workModel?: string;
@@ -18,6 +19,7 @@ type Props = {
 const JobForm: React.FC<Props> = ({
   jobLocation,
   jobStatus,
+  company,
   jobType,
   position,
   workModel,
@@ -33,10 +35,11 @@ const JobForm: React.FC<Props> = ({
   );
   const workModelList = useMemo(() => ['remote', 'onsite', 'hybrid'], []);
   const { companyInfo, loading, fetchCompanyInfo } = useCompanyInfo();
-
+  console.log(companyInfo);
+  console.log(company, 'company');
   return (
     <Wrapper>
-      <h2>Add Job</h2>
+      <h2>{submitButtonLabel} Job</h2>
       <Form method='POST' className='form-component'>
         <FormRow
           label='Position'

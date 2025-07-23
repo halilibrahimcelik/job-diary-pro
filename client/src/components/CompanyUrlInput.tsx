@@ -89,7 +89,7 @@ interface Props {
   fetchCompanyInfo: (url: string) => Promise<void>;
   label: string;
   id: string;
-  defaultValue?: string;
+
   name?: string;
 }
 
@@ -99,16 +99,17 @@ const CompanyUrlInput = ({
   fetchCompanyInfo,
   label,
   id,
-  defaultValue,
+
   name,
 }: Props) => {
-  const [url, setUrl] = useState<string | undefined>(defaultValue);
+  const [url, setUrl] = useState<string | undefined>(companyInfo?.fullUrl);
 
   const debouncedFetchCompanyInfo = useMemo(
     //@ts-ignore
     () => debounceFn(fetchCompanyInfo, 600),
     [fetchCompanyInfo]
   );
+  console.log(companyInfo?.name);
 
   const handleCompanyUrlChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -119,7 +120,6 @@ const CompanyUrlInput = ({
     },
     [debouncedFetchCompanyInfo]
   );
-
   return (
     <Container>
       <InputContainer className='form-row'>

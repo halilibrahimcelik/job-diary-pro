@@ -35,12 +35,7 @@ app.post('/api/v1/test', validateTest, (req: Request, res: Response) => {
 });
 
 app.use('/api/v1/jobs', authenticateUser, JobsRouter);
-app.use((req, res, next) => {
-  console.log('Content-Type:', req.get('Content-Type'));
-  console.log('Raw body type:', typeof req.body);
-  console.log('Raw body:', req.body);
-  next();
-});
+
 app.use('/api/v1/auth', AuthRouter);
 app.use('/api/v1/users', authenticateUser, UserRouter);
 app.use('*', (req, res, next) => {

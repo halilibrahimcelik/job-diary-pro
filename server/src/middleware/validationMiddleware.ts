@@ -63,12 +63,7 @@ export const validateCreateJob = withValidationErrors([
     .withMessage('invalid Type value'),
 ]);
 export const validateEditJob = withValidationErrors([
-  body('company')
-    .notEmpty()
-    .trim()
-    .withMessage('Company Name is required')
-    .isLength({ min: 3 })
-    .withMessage('Company Name must be at least 3 char'),
+  body('company.name').notEmpty().trim().withMessage('Company  is required'),
   body('position')
     .notEmpty()
     .trim()

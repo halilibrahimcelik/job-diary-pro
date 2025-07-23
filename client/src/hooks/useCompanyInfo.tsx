@@ -81,5 +81,5 @@ export const useCompanyInfo = () => {
     }
   }, []);
 
-  return { companyInfo, loading, fetchCompanyInfo };
+  return { companyInfo, loading, fetchCompanyInfo, setCompanyInfo };
 };
