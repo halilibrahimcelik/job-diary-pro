@@ -15,6 +15,7 @@ import Modal from './Modal';
 import { AxiosError } from 'axios';
 import { toast } from 'sonner';
 import { apiService } from '../api/actions';
+import { FiExternalLink } from 'react-icons/fi';
 
 type Props = {
   job: IJob;
@@ -54,7 +55,13 @@ const Job: React.FC<Props> = ({ job }) => {
         <div className='main-icon'>{job.position.split('')[0]}</div>
         <div className='info'>
           <h5>{job.position} </h5>
-          <p> {job?.company?.name} </p>
+          <p>
+            {' '}
+            {job?.company?.name}{' '}
+            <Link target='_blank' to={job?.company?.fullUrl}>
+              <FiExternalLink />
+            </Link>{' '}
+          </p>
         </div>
       </header>
       <div className='content'>

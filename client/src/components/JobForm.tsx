@@ -82,14 +82,6 @@ const JobForm: React.FC<Props> = ({
           value={companyInfo?.fullUrl ? companyInfo?.fullUrl : company?.fullUrl}
         />
 
-        {/* <FormRow
-          label='company'
-          name='company'
-          type='text'
-          id='company'
-          defaultValue={company ? company : ''}
-          required
-        /> */}
         <FormRow
           label='Job Location'
           name='jobLocation'

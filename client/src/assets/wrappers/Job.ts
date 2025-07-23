@@ -12,6 +12,15 @@ const Wrapper = styled.article`
     display: grid;
     grid-template-columns: auto 1fr;
     align-items: center;
+    p {
+      display: flex;
+      gap: 4px;
+      align-items: center;
+    }
+    a {
+      color: inherit;
+      margin-top: 2px;
+    }
   }
   .main-icon {
     width: 60px;
