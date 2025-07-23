@@ -56,10 +56,9 @@ const Job: React.FC<Props> = ({ job }) => {
         <div className='info'>
           <h5>{job.position} </h5>
           <p>
-            {' '}
-            {job?.company?.name}{' '}
             <Link target='_blank' to={job?.company?.fullUrl}>
-              <FiExternalLink />
+              {' '}
+              {job?.company?.name} <FiExternalLink />
             </Link>{' '}
           </p>
         </div>

@@ -16,7 +16,7 @@ export const getAllJobs = async (
     if (queryParams.search) {
       filter.$or = [
         { position: { $regex: queryParams.search, $options: 'i' } },
-        { company: { $regex: queryParams.search, $options: 'i' } },
+        { 'company.name': { $regex: queryParams.search, $options: 'i' } },
       ];
     }
     if (queryParams.jobStatus) {
@@ -105,8 +105,6 @@ export const createJob = async (
   next: NextFunction
 ) => {
   try {
-    // Add these debug logs at the very start of the controller
-
     const {
       company,
       position,
