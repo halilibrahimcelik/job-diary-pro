@@ -66,7 +66,7 @@ export const loginUser = async (
         httpOnly: true,
         expires: new Date(Date.now() + oneDay),
         secure: process.env.NODE_ENV === 'production',
-        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax', // Important for cross-origin
+        sameSite: 'none',
       });
       res.status(StatusCodes.OK).json({
         message: 'You successfully logged In',
