@@ -16,6 +16,7 @@ import { AxiosError } from 'axios';
 import { toast } from 'sonner';
 import { apiService } from '../api/actions';
 import { FiExternalLink } from 'react-icons/fi';
+import { queryClient } from '../utils/queryClient';
 
 type Props = {
   job: IJob;
@@ -37,6 +38,8 @@ const Job: React.FC<Props> = ({ job }) => {
         '/jobs/' + job._id.toString()
       );
       if (response.status === 200) {
+        queryClient.invalidateQueries({ queryKey: ['jobs'] });
+
         toast.success(response.data.message);
         setParams({
           jobDeleted: 'true',

@@ -1,45 +1,46 @@
 import { AxiosError } from 'axios';
-import { redirect, useLoaderData } from 'react-router-dom';
+import { redirect } from 'react-router-dom';
 import { toast } from 'sonner';
-import { apiService } from '../api/actions';
-import type { JobResponse } from '../types';
 import { SearchContainer } from '../components';
 import { JobsContainer } from '../components';
 import { PageContainer } from '../components';
 import { useJobs } from '../hooks/useJobs';
-import { useEffect } from 'react';
 import EmptyState from '../components/EmptyState';
+import { queryClient } from '../utils/queryClient';
+import { allJobsQuery } from '../api/queries';
 
 export const AllJobsLoader = async () => {
   try {
-    const response = await apiService.get<JobResponse>('/jobs');
-    if (response.status === 200) {
-      return response.data;
-    }
+    const response = await queryClient.ensureQueryData(allJobsQuery);
+    return response;
   } catch (error) {
     if (error instanceof AxiosError) {
       toast.error(error.response?.data?.message || 'Something went wrong');
     }
     return redirect('/');
   }
-  return null;
 };
 const AllJobs = () => {
-  const { data, page, totalPage } = useLoaderData<JobResponse>();
-  const { setJobs, jobs, pageInfo } = useJobs();
-  useEffect(() => {
-    setJobs(data);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  // const { data, page, totalPage } = useLoaderData<JobResponse>();
+  // const { data } = useQuery(allJobsQuery);
+
+  const { jobs, pageInfo } = useJobs();
+  // useEffect(() => {
+  //   setJobs(data?.data ? data?.data : []);
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
   return (
     <>
-      <SearchContainer allJobs={data} />
+      <SearchContainer allJobs={jobs} />
       {pageInfo.total === 0 ? (
         <EmptyState />
       ) : (
         <>
           <JobsContainer jobs={jobs} />
-          <PageContainer page={page} totalPage={totalPage} />
+          <PageContainer
+            page={pageInfo?.page || 1}
+            totalPage={pageInfo?.totalPage || 0}
+          />
         </>
       )}
     </>

@@ -88,6 +88,8 @@ export const createJobAction: ActionFunction = async ({ request }) => {
     );
 
     if (response.status === 201) {
+      queryClient.invalidateQueries({ queryKey: ['jobs'] });
+
       toast.success(
         <span>
           {response.data.data.position} position at{' '}
@@ -131,6 +133,8 @@ export const editJobAction: ActionFunction = async ({ request, params }) => {
       newData
     );
     if (response.status === 201) {
+      queryClient.invalidateQueries({ queryKey: ['jobs'] });
+
       toast.success(
         <span>
           {' '}

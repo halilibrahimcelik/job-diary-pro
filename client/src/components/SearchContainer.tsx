@@ -16,6 +16,7 @@ import type {
   WorkModel,
 } from '../types';
 import { apiService } from '../api/actions';
+import { useQuery } from '@tanstack/react-query';
 
 const CustomWrapper = styled(Wrapper)`
   h4 {
@@ -129,7 +130,8 @@ const SearchContainer: React.FC<Props> = ({ allJobs }) => {
     setJobs(allJobs);
     setSearchParams();
   };
-  useEffect(() => {
+  // Create query key based on search parameters
+  const queryKey = useMemo(() => {
     const params = new URLSearchParams();
     if (searchedQuery) params.append('search', searchedQuery);
     if (jobStatusQuery) params.append('jobStatus', jobStatusQuery);
@@ -138,35 +140,85 @@ const SearchContainer: React.FC<Props> = ({ allJobs }) => {
     if (sortByQuery) params.append('sort', sortByQuery);
     if (pageQuery) params.append('page', pageQuery);
 
-    const fetchFilteredRequest = async () => {
+    return ['jobs', params.toString()];
+  }, [
+    searchedQuery,
+    jobStatusQuery,
+    jobTypeQuery,
+    workModelQuery,
+    sortByQuery,
+    pageQuery,
+  ]);
+  // Replace the useEffect with useQuery
+  const { data } = useQuery({
+    queryKey,
+    queryFn: async () => {
+      const params = new URLSearchParams();
+      if (searchedQuery) params.append('search', searchedQuery);
+      if (jobStatusQuery) params.append('jobStatus', jobStatusQuery);
+      if (jobTypeQuery) params.append('jobType', jobTypeQuery);
+      if (workModelQuery) params.append('workModel', workModelQuery);
+      if (sortByQuery) params.append('sort', sortByQuery);
+      if (pageQuery) params.append('page', pageQuery);
+
       const response = await apiService.get<JobResponse>(
         '/jobs?' + params.toString()
       );
-      setJobs(response.data.data);
+      return response.data;
+    },
+    enabled:
+      jobDeletedQuery !== 'true' ||
+      (jobDeletedQuery && jobDeletedQuery === 'true'),
+  });
+  useEffect(() => {
+    if (data) {
+      setJobs(data.data);
       setPageInfo({
-        page: response.data.page,
-        total: response.data.total,
-        totalPage: response.data.totalPage,
+        page: data.page,
+        total: data.total,
+        totalPage: data.totalPage,
       });
-    };
+    }
+  }, [data, setJobs, setPageInfo]);
+  // useEffect(() => {
+  //   const params = new URLSearchParams();
+  //   if (searchedQuery) params.append('search', searchedQuery);
+  //   if (jobStatusQuery) params.append('jobStatus', jobStatusQuery);
+  //   if (jobTypeQuery) params.append('jobType', jobTypeQuery);
+  //   if (workModelQuery) params.append('workModel', workModelQuery);
+  //   if (sortByQuery) params.append('sort', sortByQuery);
+  //   if (pageQuery) params.append('page', pageQuery);
 
-    if (jobDeletedQuery !== 'true') {
-      fetchFilteredRequest();
-    }
-    if (jobDeletedQuery && jobDeletedQuery === 'true') {
-      fetchFilteredRequest();
-    }
-  }, [
-    jobStatusQuery,
-    jobTypeQuery,
-    searchedQuery,
-    workModelQuery,
-    sortByQuery,
-    jobDeletedQuery,
-    setJobs,
-    pageQuery,
-    setPageInfo,
-  ]);
+  //   const fetchFilteredRequest = async () => {
+  //     const response = await apiService.get<JobResponse>(
+  //       '/jobs?' + params.toString()
+  //     );
+  //     console.log('heey');
+  //     setJobs(response.data.data);
+  //     setPageInfo({
+  //       page: response.data.page,
+  //       total: response.data.total,
+  //       totalPage: response.data.totalPage,
+  //     });
+  //   };
+
+  //   if (jobDeletedQuery !== 'true') {
+  //     fetchFilteredRequest();
+  //   }
+  //   if (jobDeletedQuery && jobDeletedQuery === 'true') {
+  //     fetchFilteredRequest();
+  //   }
+  // }, [
+  //   jobStatusQuery,
+  //   jobTypeQuery,
+  //   searchedQuery,
+  //   workModelQuery,
+  //   sortByQuery,
+  //   jobDeletedQuery,
+  //   setJobs,
+  //   pageQuery,
+  //   setPageInfo,
+  // ]);
 
   return (
     <CustomWrapper>

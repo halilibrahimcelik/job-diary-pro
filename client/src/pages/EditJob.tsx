@@ -1,16 +1,19 @@
-import { Link, useLoaderData, type LoaderFunctionArgs } from 'react-router-dom';
+import { Link, useParams, type LoaderFunctionArgs } from 'react-router-dom';
 import { AxiosError } from 'axios';
-import { apiService } from '../api/actions';
-import type { IJob, JobResponse } from '../types';
 import JobForm from '../components/JobForm';
 import { ROUTES_PATHS } from '../constants';
 import styled from 'styled-components';
+import { queryClient } from '../utils/queryClient';
+import { getSingleJobQuery } from '../api/queries';
+import { useQuery } from '@tanstack/react-query';
 
 export const EditJobsLoader = async ({ params }: LoaderFunctionArgs) => {
   const { jobId } = params;
   try {
-    const response = await apiService.get<JobResponse>(`/jobs/${jobId}`);
-    return response.data.data;
+    const response = await queryClient.ensureQueryData(
+      getSingleJobQuery(jobId!)
+    );
+    return response;
   } catch (error) {
     if (error instanceof AxiosError) {
       return error.response?.data.message;
@@ -30,7 +33,9 @@ const Wrapper = styled.div`
   }
 `;
 const EditJob = () => {
-  const data = useLoaderData<IJob>();
+  const params = useParams();
+  const { data } = useQuery(getSingleJobQuery(params.jobId!));
+
   return (
     <Wrapper>
       <JobForm
