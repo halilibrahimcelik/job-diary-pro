@@ -13,7 +13,6 @@ import EmptyState from '../components/EmptyState';
 export const AllJobsLoader = async () => {
   try {
     const response = await apiService.get<JobResponse>('/jobs');
-    //console.log(response);
     if (response.status === 200) {
       return response.data;
     }

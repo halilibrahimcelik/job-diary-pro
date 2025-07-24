@@ -109,7 +109,6 @@ const CompanyUrlInput = ({
     () => debounceFn(fetchCompanyInfo, 600),
     [fetchCompanyInfo]
   );
-  console.log(companyInfo?.name);
 
   const handleCompanyUrlChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {

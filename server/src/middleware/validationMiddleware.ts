@@ -84,7 +84,6 @@ export const validateIdParam = withValidationErrors([
     }
     const isAdmin = role === 'admin';
     const isOwner = job.createdBy.toString() === userId;
-    console.log(isOwner);
     if (!isAdmin && !isOwner) {
       throw new ForbiddenError('You are not authorized!');
     }
