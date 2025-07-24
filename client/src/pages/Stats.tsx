@@ -1,8 +1,7 @@
 import { AxiosError } from 'axios';
 import { redirect } from 'react-router-dom';
 import { toast } from 'sonner';
-import { apiService } from '../api/actions';
-import type { IJob, JobResponse } from '../types';
+import type { IJob } from '../types';
 import Wrapper from '../assets/wrappers/StatsContainer';
 import StatItem from '../assets/wrappers/StatItem';
 import { PiReadCvLogo } from 'react-icons/pi';
@@ -13,23 +12,8 @@ import { COLORS } from '../constants';
 import DashboardChart from '../components/DashboardChart';
 import { useQuery } from '@tanstack/react-query';
 import { queryClient } from '../utils/queryClient';
+import { statsQuery } from '../api/queries';
 
-const statsQuery = {
-  queryKey: ['stats'],
-  queryFn: async () => {
-    try {
-      const response = await apiService.get<JobResponse>('/jobs/get-all');
-      if (response.status === 200) {
-        return response.data.data;
-      }
-    } catch (error) {
-      if (error instanceof AxiosError) {
-        toast.error(error.response?.data.message);
-        return redirect('/dashboard');
-      }
-    }
-  },
-};
 export const StatsLoader = async () => {
   try {
     const data = await queryClient.ensureQueryData(statsQuery);
@@ -116,7 +100,7 @@ const Stats = () => {
         <h2> Declined </h2>
       </StatItem>
       <div className='col-span-3 mt-4'>
-        <DashboardChart data={data} />
+        <DashboardChart data={data!} />
       </div>
     </Wrapper>
   );

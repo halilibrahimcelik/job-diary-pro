@@ -3,6 +3,7 @@ import { createContext, useEffect, useState } from 'react';
 import { apiService } from '../api/actions';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES_PATHS } from '../constants';
+import { queryClient } from '../utils/queryClient';
 
 type InitialStateType = {
   showSidebar: boolean;
@@ -52,6 +53,8 @@ const DashboardProvider = ({ children }: Props) => {
   };
   const logoutUser = async () => {
     try {
+      queryClient.invalidateQueries();
+
       const response = await apiService.get('/auth/logout');
       if (response.status === 200) {
         return navigate('/' + ROUTES_PATHS.LOGIN);

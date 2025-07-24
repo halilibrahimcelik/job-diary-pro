@@ -2,19 +2,19 @@ import { useEffect, useState } from 'react';
 import Wrapper from '../assets/wrappers/LogoutContainer';
 import { FaUserCircle, FaCaretDown } from 'react-icons/fa';
 import { useDashboard } from '../hooks/useDashboard';
-import { useLoaderData } from 'react-router-dom';
-import type { UserResponse } from '../types';
+import { useQuery } from '@tanstack/react-query';
+import { profileQuery } from '../api/queries';
 
 const LogoutContainer: React.FC = () => {
   const [showLogout, setShowLogout] = useState(false);
   const { logoutUser, setRole } = useDashboard();
-  const data = useLoaderData<UserResponse>();
+  const { data } = useQuery(profileQuery);
   const toggleShowLogout = () => {
     setShowLogout(!showLogout);
   };
   useEffect(() => {
-    if (data.data.role) {
-      setRole(data.data.role);
+    if (data?.role) {
+      setRole(data.role);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -25,16 +25,16 @@ const LogoutContainer: React.FC = () => {
         type='button'
         className='btn logout-btn'
       >
-        {data.data.image ? (
+        {data?.image ? (
           <img
             className='img'
-            src={data.data.image}
-            alt={data.data.name + ' ' + 'image'}
+            src={data?.image}
+            alt={data?.name + ' ' + 'image'}
           />
         ) : (
           <FaUserCircle className='img' />
         )}
-        {data.data.name}
+        {data?.name}
         <FaCaretDown />
       </button>
       <div className={showLogout ? 'dropdown show-dropdown' : 'dropdown'}>

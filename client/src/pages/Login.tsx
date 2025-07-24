@@ -6,6 +6,7 @@ import { ROUTES_PATHS } from '../constants';
 import { apiService } from '../api/actions';
 import { toast } from 'sonner';
 import { AxiosError } from 'axios';
+import { queryClient } from '../utils/queryClient';
 
 const Login = () => {
   const { state } = useNavigation();
@@ -19,6 +20,8 @@ const Login = () => {
 
       const response = await apiService.post('/auth/login', data);
       if (response.status === 200) {
+        queryClient.invalidateQueries();
+
         toast.message(
           <span>
             🎉 Welcome to the Demo Account! Feel free to explore all Job Tracker

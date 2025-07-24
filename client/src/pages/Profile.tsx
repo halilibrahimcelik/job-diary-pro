@@ -1,14 +1,15 @@
-import { Form, useLoaderData, useNavigation } from 'react-router-dom';
+import { Form, useNavigation } from 'react-router-dom';
 import { FormRow } from '../components';
 import Wrapper from '../assets/wrappers/DashboardFormPage';
 import { AxiosError } from 'axios';
 import { toast } from 'sonner';
-import { apiService } from '../api/actions';
-import type { IUser, UserResponse } from '../types';
 import { useRef, useState } from 'react';
 import styled from 'styled-components';
 import { FaXmark } from 'react-icons/fa6';
 import placeholderImage from '../assets/images/placeholder-image.jpg';
+import { queryClient } from '../utils/queryClient';
+import { profileQuery } from '../api/queries';
+import { useQuery } from '@tanstack/react-query';
 const ImageWrapper = styled.div`
   position: relative;
   width: fit-content;
@@ -57,10 +58,8 @@ const ImageWrapper = styled.div`
 `;
 export const ProfileLoader = async () => {
   try {
-    const response = await apiService.get<UserResponse>('/users/current-user');
-    if (response.status === 200) {
-      return response.data.data;
-    }
+    const data = await queryClient.ensureQueryData(profileQuery);
+    return data;
   } catch (error) {
     if (error instanceof AxiosError) {
       toast.error(error.response?.data.message);
@@ -71,7 +70,7 @@ export const ProfileLoader = async () => {
 const Profile = () => {
   const { state } = useNavigation();
   const imageRef = useRef<HTMLInputElement | null>(null);
-  const data = useLoaderData<IUser>();
+  const { data } = useQuery(profileQuery);
   const [selectedImage, setSelectedImage] = useState<File | undefined>();
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
@@ -97,7 +96,7 @@ const Profile = () => {
                 src={
                   selectedImage
                     ? URL.createObjectURL(selectedImage)
-                    : data.image
+                    : data?.image
                     ? data.image
                     : placeholderImage
                 }
@@ -129,14 +128,14 @@ const Profile = () => {
         />
         <FormRow
           label='Name'
-          defaultValue={data.name}
+          defaultValue={data?.name}
           name='name'
           type='text'
           id='name'
           required
         />
         <FormRow
-          defaultValue={data.lastName}
+          defaultValue={data?.lastName}
           label='Last Name'
           name='lastName'
           type='text'
@@ -145,14 +144,14 @@ const Profile = () => {
         />
         <FormRow
           label='Email'
-          defaultValue={data.email}
+          defaultValue={data?.email}
           name='email'
           type='email'
           id='email'
           required
         />
         <FormRow
-          defaultValue={data.location}
+          defaultValue={data?.location}
           label='Location'
           name='location'
           type='text'

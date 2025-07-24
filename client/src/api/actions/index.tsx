@@ -15,6 +15,7 @@ import type {
   UserResponse,
 } from '../../types';
 import type { CompanyInfo } from '../../hooks/useCompanyInfo';
+import { queryClient } from '../../utils/queryClient';
 
 export const registerAction: ActionFunction = async ({ request }) => {
   try {
@@ -48,6 +49,7 @@ export const loginAction: ActionFunction = async ({ request }) => {
     const data = Object.fromEntries(formData);
     const response = await apiService.post('/auth/login', data);
     if (response.status === 200) {
+      queryClient.invalidateQueries();
       toast.success(<span> Welcome Back ✨✨✨✨</span>);
       return redirect('/' + ROUTES_PATHS.DASHBOARD);
     }
@@ -197,6 +199,7 @@ export const updateUserAction: ActionFunction = async ({ request }) => {
 
     if (response.status === 200) {
       toast.success('Your profile succesfully updated!!🎉🎉🎉🎉');
+      queryClient.invalidateQueries({ queryKey: ['profile'] });
     }
     return null;
   } catch (error) {

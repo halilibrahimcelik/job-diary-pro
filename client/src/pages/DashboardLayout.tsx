@@ -1,25 +1,19 @@
-import {
-  Outlet,
-  redirect,
-  useLoaderData,
-  useNavigation,
-} from 'react-router-dom';
+import { Outlet, redirect, useNavigation } from 'react-router-dom';
 import Wrapper from '../assets/wrappers/Dashboard';
 import { BigSideBar, Navbar, SmallSideBar } from '../components';
 import { AxiosError } from 'axios';
-import { apiService } from '../api/actions';
-import type { UserResponse } from '../types';
 import { toast } from 'sonner';
 import DashboardProvider from '../providers/DashboardContextProvider';
 import LoadingSpinner from '../components/Loading';
+import { queryClient } from '../utils/queryClient';
+import { profileQuery } from '../api/queries';
+import { useQuery } from '@tanstack/react-query';
 
 //loader fun allows you get the data before even page loaded.
 export const DashboardLoader = async () => {
   try {
-    const response = await apiService.get<UserResponse>('/users/current-user');
-    if (response.status === 200) {
-      return response.data;
-    }
+    const response = await queryClient.ensureQueryData(profileQuery);
+    return response;
   } catch (error) {
     if (error instanceof AxiosError) {
       toast.error(error.response?.data?.message || 'Something went wrong');
@@ -28,7 +22,7 @@ export const DashboardLoader = async () => {
   }
 };
 const DashboardLayout = () => {
-  const user = useLoaderData<UserResponse>();
+  const { data: user } = useQuery(profileQuery);
   const navigation = useNavigation();
   const isLoading = navigation.state === 'loading';
   return (
