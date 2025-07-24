@@ -1,4 +1,9 @@
-import { Outlet, redirect, useLoaderData } from 'react-router-dom';
+import {
+  Outlet,
+  redirect,
+  useLoaderData,
+  useNavigation,
+} from 'react-router-dom';
 import Wrapper from '../assets/wrappers/Dashboard';
 import { BigSideBar, Navbar, SmallSideBar } from '../components';
 import { AxiosError } from 'axios';
@@ -6,6 +11,7 @@ import { apiService } from '../api/actions';
 import type { UserResponse } from '../types';
 import { toast } from 'sonner';
 import DashboardProvider from '../providers/DashboardContextProvider';
+import LoadingSpinner from '../components/Loading';
 
 //loader fun allows you get the data before even page loaded.
 export const DashboardLoader = async () => {
@@ -23,16 +29,18 @@ export const DashboardLoader = async () => {
 };
 const DashboardLayout = () => {
   const user = useLoaderData<UserResponse>();
+  const navigation = useNavigation();
+  const isLoading = navigation.state === 'loading';
   return (
     <DashboardProvider>
       <Wrapper>
         <main className='dashboard'>
           <SmallSideBar />
           <BigSideBar />
-          <div>
+          <div className='main-content'>
             <Navbar />
             <div className='dashboard-page'>
-              <Outlet context={user} />
+              {isLoading ? <LoadingSpinner /> : <Outlet context={user} />}
             </div>
           </div>
         </main>

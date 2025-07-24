@@ -1,5 +1,5 @@
 import { AxiosError } from 'axios';
-import { redirect, useLoaderData } from 'react-router-dom';
+import { redirect } from 'react-router-dom';
 import { toast } from 'sonner';
 import { apiService } from '../api/actions';
 import type { IJob, JobResponse } from '../types';
@@ -11,13 +11,29 @@ import { VscArchive } from 'react-icons/vsc';
 import { useDashboard } from '../hooks/useDashboard';
 import { COLORS } from '../constants';
 import DashboardChart from '../components/DashboardChart';
+import { useQuery } from '@tanstack/react-query';
+import { queryClient } from '../utils/queryClient';
 
+const statsQuery = {
+  queryKey: ['stats'],
+  queryFn: async () => {
+    try {
+      const response = await apiService.get<JobResponse>('/jobs/get-all');
+      if (response.status === 200) {
+        return response.data.data;
+      }
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        toast.error(error.response?.data.message);
+        return redirect('/dashboard');
+      }
+    }
+  },
+};
 export const StatsLoader = async () => {
   try {
-    const response = await apiService.get<JobResponse>('/jobs/get-all');
-    if (response.status === 200) {
-      return response.data.data;
-    }
+    const data = await queryClient.ensureQueryData(statsQuery);
+    return data;
   } catch (error) {
     if (error instanceof AxiosError) {
       toast.error(error.response?.data.message);
@@ -26,9 +42,12 @@ export const StatsLoader = async () => {
   }
 };
 const Stats = () => {
-  const data = useLoaderData<IJob[]>();
+  const { data } = useQuery(statsQuery);
   const { isDarkMode } = useDashboard();
-  const { pendingJobs, declinedJobs, interviewedJobs } = data.reduce(
+
+  const { pendingJobs, declinedJobs, interviewedJobs } = (
+    Array.isArray(data) ? data : []
+  ).reduce(
     (acc, job) => {
       switch (job.jobStatus) {
         case 'pending':
@@ -49,6 +68,7 @@ const Stats = () => {
       interviewedJobs: [] as IJob[],
     }
   );
+
   return (
     <Wrapper>
       <StatItem

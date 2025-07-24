@@ -29,6 +29,7 @@ import { EditJobsLoader } from './pages/EditJob';
 import { AdminLoader } from './pages/Admin';
 import { StatsLoader } from './pages/Stats';
 import { ProfileLoader } from './pages/Profile';
+import ErrorState from './components/ErrorState';
 
 const router = createBrowserRouter([
   {
@@ -69,6 +70,7 @@ const router = createBrowserRouter([
             path: ROUTES_PATHS.STATS,
             element: <Stats />,
             loader: StatsLoader,
+            errorElement: <ErrorState />,
           },
           {
             path: ROUTES_PATHS.ALL_JOBS,
