@@ -2,9 +2,12 @@ import { AxiosError } from 'axios';
 import { redirect, type ActionFunction } from 'react-router-dom';
 import ApiService from '../../utils/apiClient';
 import { ROUTES_PATHS } from '../../constants';
-export const apiService = new ApiService(
-  'https://job-tracking-app-vqoy.onrender.com/api/v1'
-);
+
+const url =
+  import.meta.env.VITE_NODE_ENV === 'production'
+    ? import.meta.env.VITE_API_URL
+    : 'http://localhost:8080/api/v1';
+export const apiService = new ApiService(url);
 import { toast } from 'sonner';
 import type {
   ICreateJobResponse,
@@ -43,7 +46,7 @@ export const loginAction: ActionFunction = async ({ request }) => {
   try {
     const formData = await request.formData();
     const data = Object.fromEntries(formData);
-
+    console.log(url);
     const response = await apiService.post('/auth/login', data);
     if (response.status === 200) {
       toast.success(<span> Welcome Back ✨✨✨✨</span>);
