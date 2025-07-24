@@ -35,8 +35,6 @@ const JobForm: React.FC<Props> = ({
   );
   const workModelList = useMemo(() => ['remote', 'onsite', 'hybrid'], []);
   const { companyInfo, loading, fetchCompanyInfo } = useCompanyInfo();
-  console.log(companyInfo);
-  console.log(company, 'company');
   return (
     <Wrapper>
       <h2>{submitButtonLabel} Job</h2>

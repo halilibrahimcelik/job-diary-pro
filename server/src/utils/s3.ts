@@ -4,8 +4,6 @@ import dotenv from 'dotenv';
 // Actually configure dotenv
 dotenv.config();
 
-console.log('S3.ts - BUCKET_REGION:', process.env.BUCKET_REGION);
-
 export const s3Client = new S3Client({
   region: process.env.BUCKET_REGION!,
   credentials: {

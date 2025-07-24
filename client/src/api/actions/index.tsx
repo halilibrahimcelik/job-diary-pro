@@ -46,7 +46,6 @@ export const loginAction: ActionFunction = async ({ request }) => {
   try {
     const formData = await request.formData();
     const data = Object.fromEntries(formData);
-    console.log(url);
     const response = await apiService.post('/auth/login', data);
     if (response.status === 200) {
       toast.success(<span> Welcome Back ✨✨✨✨</span>);

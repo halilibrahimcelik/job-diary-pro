@@ -41,7 +41,6 @@ export const checkTesterRole = (
 
 export const authorizedPermissions = (...roles: any) => {
   return (req: Request, res: Response, next: NextFunction) => {
-    console.log(roles);
     if (!roles.includes(req.user?.role)) {
       throw new ForbiddenError('Unauthorized to access this feature');
     }
