@@ -11,15 +11,13 @@ const Landing = () => {
       <div className='container page'>
         <div className='info'>
           <h1>
-            Job <span>Tracking</span> App
+            Job <span>Dairy</span> Pro
           </h1>
           <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro sequi
-            culpa nobis unde et omnis beatae quod error, saepe deserunt quam ea
-            magnam, est odio vitae? Repellat, atque obcaecati! Consequuntur
-            perspiciatis molestias, magnam voluptates quasi illo doloribus
-            neque. Provident consectetur harum odit nesciunt impedit est enim
-            incidunt fugit quaerat sunt!
+            Streamline your job search with our comprehensive tracking
+            application. Keep track of applications, interviews, and follow-ups
+            all in one place. Stay organized, monitor your progress, and land
+            your dream job faster with powerful analytics and insights.
           </p>
           <Link to='/register' className='btn  register-link'>
             Register

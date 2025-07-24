@@ -62,12 +62,15 @@ export const loginUser = async (
         role: isUserExist.role,
       });
       const oneDay = 1000 * 60 * 60 * 24;
+      const isProduction = process.env.NODE_ENV === 'production';
+
       res.cookie('token', token, {
         httpOnly: true,
         expires: new Date(Date.now() + oneDay),
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: 'none',
+        secure: isProduction,
+        sameSite: isProduction ? 'none' : 'lax',
       });
+
       res.status(StatusCodes.OK).json({
         message: 'You successfully logged In',
       });

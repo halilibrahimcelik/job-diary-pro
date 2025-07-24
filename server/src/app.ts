@@ -17,7 +17,10 @@ const app = express();
 const PORT = process.env.PORT;
 
 //Adding middlewares
-const allowedOrigin = process.env.CLIENT_URL || 'http://localhost:3000'; // Default to localhost for development
+const allowedOrigin =
+  process.env.NODE_ENV === 'production'
+    ? process.env.CLIENT_URL
+    : 'http://localhost:3000';
 
 app.use(cors({ origin: allowedOrigin, credentials: true }));
 app.use(express.json());
@@ -50,7 +53,7 @@ try {
   await mongoose.connect(process.env.MONGO_URL!);
 
   app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+    console.log(`Allowed origin access ${allowedOrigin}`);
   });
 } catch (error) {
   console.log(error);
