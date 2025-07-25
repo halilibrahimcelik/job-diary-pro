@@ -2,20 +2,14 @@
   "version": 2,
   "builds": [
     {
-      "src": "src/app.ts",
+      "src": "api/index.ts",
       "use": "@vercel/node"
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "headers": {
-        "Access-Control-Allow-Origin": "https://job-diary-pro.vercel.app",
-        "Access-Control-Allow-Credentials": "true",
-        "Access-Control-Allow-Methods": "GET,POST,PUT,DELETE,PATCH,OPTIONS",
-        "Access-Control-Allow-Headers": "Content-Type,Authorization,Cookie,X-Requested-With,Accept"
-      },
-      "dest": "/src/app"
+      "dest": "/api"
     }
   ]
 }

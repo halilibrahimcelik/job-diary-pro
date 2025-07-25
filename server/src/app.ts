@@ -1,4 +1,4 @@
-import express, { Request, Response } from 'express';
+import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 
 import morgan from 'morgan';
@@ -50,13 +50,62 @@ const PORT = process.env.PORT;
 //     allowedHeaders: ['Content-Type', 'Authorization', 'Cookie'],
 //   })
 // );
-const allowedOrigin =
-  process.env.NODE_ENV === 'production'
-    ? process.env.CLIENT_URL
-    : 'http://localhost:3000';
+// const allowedOrigin =
+//   process.env.NODE_ENV === 'production'
+//     ? process.env.CLIENT_URL
+//     : 'http://localhost:3000';
+// app.use(
+//   cors({
+//     origin: allowedOrigin, // Your frontend URL (specific, not wildcard)
+//     credentials: true,
+//     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+//     allowedHeaders: [
+//       'Content-Type',
+//       'Authorization',
+//       'Cookie',
+//       'X-Requested-With',
+//       'Accept',
+//     ],
+//   })
+// );
+
+// // Handle OPTIONS requests explicitly
+// app.options(
+//   '*',
+//   cors({
+//     origin: allowedOrigin,
+//     credentials: true,
+//   })
+// );
+// CORS handling - place this BEFORE any other middleware
+app.use((req: Request, res: Response, next: NextFunction) => {
+  res.setHeader(
+    'Access-Control-Allow-Origin',
+    'https://job-diary-pro.vercel.app'
+  );
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
+  res.setHeader(
+    'Access-Control-Allow-Methods',
+    'GET, POST, PUT, DELETE, OPTIONS'
+  );
+  res.setHeader(
+    'Access-Control-Allow-Headers',
+    'Content-Type, Authorization, Cookie, X-Requested-With, Accept'
+  );
+
+  // Handle OPTIONS requests immediately
+  if (req.method === 'OPTIONS') {
+    res.status(200).end();
+    return;
+  }
+
+  next();
+});
+
+// Then your regular cors middleware (as backup)
 app.use(
   cors({
-    origin: allowedOrigin, // Your frontend URL (specific, not wildcard)
+    origin: 'https://job-diary-pro.vercel.app',
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
     allowedHeaders: [
@@ -69,14 +118,6 @@ app.use(
   })
 );
 
-// Handle OPTIONS requests explicitly
-app.options(
-  '*',
-  cors({
-    origin: allowedOrigin,
-    credentials: true,
-  })
-);
 app.use(express.json());
 
 app.use(cookieParser());
@@ -115,7 +156,7 @@ async function startServer() {
     if (process.env.NODE_ENV !== 'production' || !process.env.VERCEL) {
       app.listen(PORT, () => {
         console.log('Server is running !!');
-        console.log(`Allowed origin ${allowedOrigin}`);
+        // console.log(`Allowed origin ${allowedOrigin}`);
       });
     }
   } catch (error) {
