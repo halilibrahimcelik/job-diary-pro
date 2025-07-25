@@ -80,7 +80,11 @@ app.post('/api/v1/test', validateTest, (req: Request, res: Response) => {
 });
 
 app.use('/api/v1/jobs', authenticateUser, JobsRouter);
-
+app.use('/api/v1/test', (req, res, next) => {
+  res.json({
+    message: 'Hello Stranger',
+  });
+});
 app.use('/api/v1/auth', AuthRouter);
 app.use('/api/v1/users', authenticateUser, UserRouter);
 app.use('*', (req, res, next) => {
