@@ -50,21 +50,33 @@ const PORT = process.env.PORT;
 //     allowedHeaders: ['Content-Type', 'Authorization', 'Cookie'],
 //   })
 // );
+const allowedOrigin =
+  process.env.NODE_ENV === 'production'
+    ? process.env.CLIENT_URL
+    : 'http://localhost:3000';
 app.use(
   cors({
-    origin: [
-      'http://localhost:3000',
-      'http://localhost:5173',
-      process.env.CLIENT_URL || '',
-    ],
+    origin: allowedOrigin, // Your frontend URL (specific, not wildcard)
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization', 'Cookie'],
+    allowedHeaders: [
+      'Content-Type',
+      'Authorization',
+      'Cookie',
+      'X-Requested-With',
+      'Accept',
+    ],
   })
 );
 
 // Handle OPTIONS requests explicitly
-app.options('*', cors());
+app.options(
+  '*',
+  cors({
+    origin: allowedOrigin,
+    credentials: true,
+  })
+);
 app.use(express.json());
 
 app.use(cookieParser());
@@ -103,6 +115,7 @@ async function startServer() {
     if (process.env.NODE_ENV !== 'production' || !process.env.VERCEL) {
       app.listen(PORT, () => {
         console.log('Server is running !!');
+        console.log(`Allowed origin ${allowedOrigin}`);
       });
     }
   } catch (error) {
