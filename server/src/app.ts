@@ -49,13 +49,26 @@ app.use('*', (req, res, next) => {
 //handling error middleware
 app.use(errorHandlerMiddleware);
 
-try {
-  await mongoose.connect(process.env.MONGO_URL!);
+async function startServer() {
+  try {
+    await mongoose.connect(process.env.MONGO_URL!);
 
-  app.listen(PORT, () => {
-    console.log(`Allowed origin access ${allowedOrigin}`);
-  });
-} catch (error) {
-  console.log(error);
-  process.exit(1);
+    // Only start the server in development or when not in Vercel
+    if (process.env.NODE_ENV !== 'production' || !process.env.VERCEL) {
+      app.listen(PORT, () => {
+        console.log(`Allowed origin access ${allowedOrigin}`);
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    process.exit(1);
+  }
 }
+
+// Start server if this file is run directly
+if (process.env.NODE_ENV !== 'production' || !process.env.VERCEL) {
+  startServer();
+}
+
+// ES Module export
+export default app;
