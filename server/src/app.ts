@@ -147,28 +147,29 @@ app.use('*', (req, res, next) => {
 });
 //handling error middleware
 app.use(errorHandlerMiddleware);
-
 async function startServer() {
   try {
+    console.log('Attempting to connect to MongoDB...');
     await mongoose.connect(process.env.MONGO_URL!);
+    console.log('MongoDB connected successfully!');
 
-    // Only start the server in development or when not in Vercel
-    if (process.env.NODE_ENV !== 'production' || !process.env.VERCEL) {
+    // Only start the HTTP server listener when NOT on Vercel
+    // Vercel uses serverless functions so we don't need to listen on a port
+    if (!process.env.VERCEL) {
       app.listen(PORT, () => {
-        console.log('Server is running !!');
-        // console.log(`Allowed origin ${allowedOrigin}`);
+        console.log('Server is running on port', PORT);
       });
+    } else {
+      console.log('Running in Vercel serverless environment');
     }
   } catch (error) {
-    console.log(error);
+    console.error('MongoDB connection error:', error);
     process.exit(1);
   }
 }
 
-// Start server if this file is run directly
-if (process.env.NODE_ENV !== 'production' || !process.env.VERCEL) {
-  startServer();
-}
+// Always call startServer to connect to MongoDB regardless of environment
+startServer();
 
 // ES Module export
 export default app;
