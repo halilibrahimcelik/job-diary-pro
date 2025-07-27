@@ -63,12 +63,13 @@ export const loginUser = async (
       });
       const oneDay = 1000 * 60 * 60 * 24;
       const isProduction = process.env.NODE_ENV === 'production';
-
       res.cookie('token', token, {
         httpOnly: true,
         expires: new Date(Date.now() + oneDay),
-        secure: isProduction,
-        sameSite: isProduction ? 'none' : 'lax',
+        secure: true, // Always use secure in production
+        sameSite: 'none', // Must be 'none' for cross-origin requests
+        domain:
+          process.env.NODE_ENV === 'production' ? '.vercel.app' : undefined, // Optional: may help with subdomains
       });
 
       res.status(StatusCodes.OK).json({
@@ -89,6 +90,8 @@ export const logoutUser = (req: Request, res: Response, next: NextFunction) => {
     res.cookie('token', 'logout', {
       httpOnly: true,
       expires: new Date(Date.now()),
+      secure: true,
+      sameSite: 'none',
     });
     res.status(StatusCodes.OK).json({
       message: 'User logged out!',
