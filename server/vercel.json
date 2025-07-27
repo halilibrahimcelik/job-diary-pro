@@ -9,13 +9,7 @@
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "/src/app",
-      "headers": {
-        "Access-Control-Allow-Origin": "https://job-diary-pro.vercel.app",
-        "Access-Control-Allow-Credentials": "true",
-        "Access-Control-Allow-Methods": "GET,POST,PUT,DELETE,PATCH,OPTIONS",
-        "Access-Control-Allow-Headers": "Content-Type,Authorization,Cookie,X-Requested-With,Accept"
-      }
+      "dest": "src/app.ts"
     }
   ]
 }
