@@ -59,19 +59,12 @@ const Login = () => {
       <Form method='POST' className='form'>
         <Logo />
         <h4>Login</h4>
-        <FormRow
-          type='email'
-          name='email'
-          id='email'
-          label='Email'
-          defaultValue='john.doe@example.com'
-        />
+        <FormRow type='email' name='email' id='email' label='Email' />
         <FormRow
           type='password'
           name='password'
           id='password'
           label='Password'
-          defaultValue='JohnDoe123!'
         />
         <button
           type='submit'

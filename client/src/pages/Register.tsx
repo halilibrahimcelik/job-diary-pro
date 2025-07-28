@@ -12,30 +12,15 @@ const Register = () => {
         <Logo />
 
         <h4>Register</h4>
-        <FormRow
-          type='text'
-          label='name'
-          name='name'
-          id='name'
-          required
-          defaultValue='John'
-        />
+        <FormRow type='text' label='name' name='name' id='name' required />
         <FormRow
           type='text'
           label='Last Name'
           id='lastName'
           name='lastName'
           required
-          defaultValue='Doe'
         />
-        <FormRow
-          type='text'
-          label='email'
-          id='email'
-          name='email'
-          required
-          defaultValue='john.doe@example.com'
-        />
+        <FormRow type='text' label='email' id='email' name='email' required />
 
         <FormRow
           type='text'
@@ -43,7 +28,7 @@ const Register = () => {
           name='location'
           id='location'
           required
-          defaultValue='USA'
+          defaultValue='UK'
         />
         <FormRow
           type='password'
@@ -51,7 +36,6 @@ const Register = () => {
           label='Password'
           id='password'
           required
-          defaultValue='JohnDoe123!'
         />
 
         <button
