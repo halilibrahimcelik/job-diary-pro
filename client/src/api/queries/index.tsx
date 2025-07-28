@@ -1,5 +1,10 @@
 import { AxiosError } from 'axios';
-import type { IJob, JobResponse, UserResponse } from '../../types';
+import type {
+  AdminStatType,
+  IJob,
+  JobResponse,
+  UserResponse,
+} from '../../types';
 import { apiService } from '../actions';
 import { toast } from 'sonner';
 export const statsQuery = {
@@ -50,14 +55,30 @@ export const allJobsQuery = {
     }
   },
 };
-
+export const adminStatsQuery = {
+  queryKey: ['admin-stats'],
+  queryFn: async () => {
+    try {
+      const response = await apiService.get<AdminStatType>(
+        '/users/admin/app-stats'
+      );
+      if (response.status === 200) {
+        return response.data;
+      }
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        toast.error(error.response?.data.message);
+        toast.error(error.response?.data?.message || 'Something went wrong');
+      }
+    }
+  },
+};
 export const getSingleJobQuery = (id: string) => {
   return {
     queryKey: ['single-job', id],
     queryFn: async () => {
       try {
         const response = await apiService.get<JobResponse>(`/jobs/${id}`);
-        console.log(response);
         return response.data.data;
       } catch (error) {
         if (error instanceof AxiosError) {

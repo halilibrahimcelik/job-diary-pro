@@ -39,6 +39,11 @@ export type JobSingleResponse = {
   total: number;
   totalPage: number;
 };
+export type AdminStatType = {
+  jobs: number;
+  message: string;
+  users: number;
+};
 
 export type JobStatus = 'all' | 'pending' | 'interview' | 'declined';
 export type JobType = 'all' | 'full-time' | 'part-time' | 'internship';

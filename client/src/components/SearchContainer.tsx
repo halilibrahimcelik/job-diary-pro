@@ -180,45 +180,6 @@ const SearchContainer: React.FC<Props> = ({ allJobs }) => {
       });
     }
   }, [data, setJobs, setPageInfo]);
-  // useEffect(() => {
-  //   const params = new URLSearchParams();
-  //   if (searchedQuery) params.append('search', searchedQuery);
-  //   if (jobStatusQuery) params.append('jobStatus', jobStatusQuery);
-  //   if (jobTypeQuery) params.append('jobType', jobTypeQuery);
-  //   if (workModelQuery) params.append('workModel', workModelQuery);
-  //   if (sortByQuery) params.append('sort', sortByQuery);
-  //   if (pageQuery) params.append('page', pageQuery);
-
-  //   const fetchFilteredRequest = async () => {
-  //     const response = await apiService.get<JobResponse>(
-  //       '/jobs?' + params.toString()
-  //     );
-  //     console.log('heey');
-  //     setJobs(response.data.data);
-  //     setPageInfo({
-  //       page: response.data.page,
-  //       total: response.data.total,
-  //       totalPage: response.data.totalPage,
-  //     });
-  //   };
-
-  //   if (jobDeletedQuery !== 'true') {
-  //     fetchFilteredRequest();
-  //   }
-  //   if (jobDeletedQuery && jobDeletedQuery === 'true') {
-  //     fetchFilteredRequest();
-  //   }
-  // }, [
-  //   jobStatusQuery,
-  //   jobTypeQuery,
-  //   searchedQuery,
-  //   workModelQuery,
-  //   sortByQuery,
-  //   jobDeletedQuery,
-  //   setJobs,
-  //   pageQuery,
-  //   setPageInfo,
-  // ]);
 
   return (
     <CustomWrapper>

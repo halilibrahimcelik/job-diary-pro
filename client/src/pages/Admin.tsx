@@ -1,27 +1,20 @@
 import { AxiosError } from 'axios';
 import { toast } from 'sonner';
-import { apiService } from '../api/actions';
 import CustomWrapper from '../assets/wrappers/StatsContainer';
-import { redirect, useLoaderData } from 'react-router-dom';
+import { redirect } from 'react-router-dom';
 import StatItem from '../assets/wrappers/StatItem';
 import { FiUsers } from 'react-icons/fi';
 import { PiSuitcase } from 'react-icons/pi';
 import { useDashboard } from '../hooks/useDashboard';
 import { COLORS } from '../constants';
+import { queryClient } from '../utils/queryClient';
+import { adminStatsQuery } from '../api/queries';
+import { useQuery } from '@tanstack/react-query';
 
-type AdminStatType = {
-  jobs: number;
-  message: string;
-  users: number;
-};
 export const AdminLoader = async () => {
   try {
-    const response = await apiService.get<AdminStatType>(
-      '/users/admin/app-stats'
-    );
-    if (response.status === 200) {
-      return response.data;
-    }
+    const response = await queryClient.ensureQueryData(adminStatsQuery);
+    return response;
   } catch (error) {
     if (error instanceof AxiosError) {
       toast.error(error.response?.data.message);
@@ -30,7 +23,7 @@ export const AdminLoader = async () => {
   }
 };
 const Admin = () => {
-  const data = useLoaderData<AdminStatType>();
+  const { data } = useQuery(adminStatsQuery);
   const { isDarkMode } = useDashboard();
 
   return (

@@ -50,39 +50,14 @@ const PORT = process.env.PORT;
 //     allowedHeaders: ['Content-Type', 'Authorization', 'Cookie'],
 //   })
 // );
-// const allowedOrigin =
-//   process.env.NODE_ENV === 'production'
-//     ? process.env.CLIENT_URL
-//     : 'http://localhost:3000';
-// app.use(
-//   cors({
-//     origin: allowedOrigin, // Your frontend URL (specific, not wildcard)
-//     credentials: true,
-//     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-//     allowedHeaders: [
-//       'Content-Type',
-//       'Authorization',
-//       'Cookie',
-//       'X-Requested-With',
-//       'Accept',
-//     ],
-//   })
-// );
+const allowedOrigin =
+  process.env.NODE_ENV === 'production'
+    ? process.env.CLIENT_URL
+    : 'http://localhost:3000';
 
-// // Handle OPTIONS requests explicitly
-// app.options(
-//   '*',
-//   cors({
-//     origin: allowedOrigin,
-//     credentials: true,
-//   })
-// );
 // CORS handling - place this BEFORE any other middleware
 app.use((req: Request, res: Response, next: NextFunction) => {
-  res.setHeader(
-    'Access-Control-Allow-Origin',
-    'https://job-diary-pro.vercel.app'
-  );
+  res.setHeader('Access-Control-Allow-Origin', allowedOrigin!);
   res.setHeader('Access-Control-Allow-Credentials', 'true');
   res.setHeader(
     'Access-Control-Allow-Methods',
@@ -105,7 +80,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 // Then your regular cors middleware (as backup)
 app.use(
   cors({
-    origin: 'https://job-diary-pro.vercel.app',
+    origin: allowedOrigin,
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
     allowedHeaders: [
