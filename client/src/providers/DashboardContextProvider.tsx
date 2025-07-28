@@ -57,6 +57,8 @@ const DashboardProvider = ({ children }: Props) => {
 
       const response = await apiService.get('/auth/logout');
       if (response.status === 200) {
+        localStorage.removeItem('authToken');
+        localStorage.removeItem('authTokenExpires');
         return navigate('/' + ROUTES_PATHS.LOGIN);
       }
     } catch (error) {

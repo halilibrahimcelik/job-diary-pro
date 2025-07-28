@@ -67,10 +67,12 @@ export const loginUser = async (
         expires: new Date(Date.now() + oneDay),
         secure: true, // Always use secure in production
         sameSite: 'none', // Must be 'none' for cross-origin requests
+        path: '/',
       });
 
       res.status(StatusCodes.OK).json({
         message: 'You successfully logged In',
+        token,
       });
     } else {
       throw new UnauthenticatedError(

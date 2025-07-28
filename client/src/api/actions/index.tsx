@@ -47,8 +47,14 @@ export const loginAction: ActionFunction = async ({ request }) => {
   try {
     const formData = await request.formData();
     const data = Object.fromEntries(formData);
-    const response = await apiService.post('/auth/login', data);
+    const response = await apiService.post<{ token: string }>(
+      '/auth/login',
+      data
+    );
     if (response.status === 200) {
+      const expiresAt = new Date().getTime() + 24 * 60 * 60 * 1000;
+      localStorage.setItem('authToken', response.data.token);
+      localStorage.setItem('authTokenExpires', expiresAt.toString());
       queryClient.invalidateQueries();
       toast.success(<span> Welcome Back ✨✨✨✨</span>);
       return redirect('/' + ROUTES_PATHS.DASHBOARD);

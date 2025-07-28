@@ -20,6 +20,23 @@ class ApiService {
     //Request interceptor
     this.axiosInstance.interceptors.request.use(
       function (config: InternalAxiosRequestConfig) {
+        const token = localStorage.getItem('authToken');
+        const tokenExpires = localStorage.getItem('authTokenExpires');
+
+        if (token && tokenExpires) {
+          const expiresAt = parseInt(tokenExpires, 10);
+          const now = new Date().getTime();
+
+          // Check if token is still valid
+          if (now < expiresAt) {
+            config.headers.Authorization = `Bearer ${token}`;
+          } else {
+            // Token expired, remove it
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('authTokenExpires');
+            // Could trigger a logout action here if needed
+          }
+        }
         return config;
       },
       function (error: AxiosError) {

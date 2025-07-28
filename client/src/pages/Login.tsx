@@ -18,10 +18,20 @@ const Login = () => {
         password: 'TesterJobTracker',
       };
 
-      const response = await apiService.post('/auth/login', data);
+      const response = await apiService.post<{ token: string }>(
+        '/auth/login',
+        data
+      );
       if (response.status === 200) {
         queryClient.invalidateQueries();
+        if (response.data?.token) {
+          const expiresAt = new Date().getTime() + 24 * 60 * 60 * 1000;
 
+          // Store both token and expiration
+          localStorage.setItem('authToken', response.data.token);
+          localStorage.setItem('authTokenExpires', expiresAt.toString());
+          // Also set in client-side cookie (not HttpOnly)
+        }
         toast.message(
           <span>
             🎉 Welcome to the Demo Account! Feel free to explore all Job Tracker

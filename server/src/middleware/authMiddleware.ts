@@ -10,7 +10,15 @@ export const authenticateUser = (
   res: Response,
   next: NextFunction
 ) => {
-  const { token } = req.cookies;
+  let { token } = req.cookies;
+
+  // If no token in cookies, check authorization header
+  if (!token) {
+    const authHeader = req.headers.authorization;
+    if (authHeader && authHeader.startsWith('Bearer ')) {
+      token = authHeader.split(' ')[1];
+    }
+  }
   if (!token)
     throw new UnauthenticatedError('authentication error no token found');
   try {
