@@ -11,7 +11,7 @@ const Landing = () => {
       <div className='container page'>
         <div className='info'>
           <h1>
-            Job <span>Dairy</span> Pro
+            Job <span>Diary</span> Pro
           </h1>
           <p>
             Streamline your job search with our comprehensive tracking

@@ -4,7 +4,7 @@ A full-stack MERN application that helps users track and manage their job applic
 
 ## 🌟 Live Demo
 
-[Job Diary Pro](https://job-diary-pro.vercel.app)
+[Job Diary Pro](https://jobdiarypro.vercel.app/)
 
 ## 📋 Overview
 
@@ -124,7 +124,7 @@ This application streamlines the job search process by providing a centralized p
 1. Clone the repository
 
    ```bash
-   git clone https://github.com/halilibrahimcelik/job-tacking-app.git
+   git clone https://github.com/halilibrahimcelik/job-diary-pro.git
    cd job-tacking-app
    ```
 
