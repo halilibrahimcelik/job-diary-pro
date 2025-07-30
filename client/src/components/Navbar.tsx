@@ -11,10 +11,12 @@ const Navbar: React.FC = () => {
     <Wrapper>
       <div className='nav-center'>
         <button onClick={toggleSidebar} className='toggle-btn'>
-          <FaAlignLeft className='nav-icon' />
+          <FaAlignLeft />
         </button>
         <div>
-          <Logo />
+          <div className='mobile-logo'>
+            <Logo />
+          </div>
           <h4 className='logo-text'>Dashboard</h4>
         </div>
         <div className='btn-container'>

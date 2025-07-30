@@ -17,7 +17,7 @@ const Wrapper = styled.nav`
     background: transparent;
     border-color: transparent;
     font-size: 1.75rem;
-    color: var(--primary-500);
+    color: var(--primary-400);
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -45,6 +45,11 @@ const Wrapper = styled.nav`
     }
     .logo-text {
       display: block;
+    }
+  }
+  @media (max-width: 500px) {
+    .mobile-logo {
+      display: none;
     }
   }
 `;
