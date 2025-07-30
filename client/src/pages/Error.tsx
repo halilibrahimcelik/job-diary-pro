@@ -1,5 +1,5 @@
 import { Link, useRouteError } from 'react-router-dom';
-import Wrapper from '../assets/wrappers/ErrorPage';
+import Wrapper from '../components/wrappers/ErrorPage';
 import notFound from '../assets/images/not-found.svg';
 import { ROUTES_PATHS } from '../constants';
 type ErrorType = {

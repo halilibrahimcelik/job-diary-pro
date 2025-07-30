@@ -1,4 +1,4 @@
-import Wrapper from '../assets/wrappers/LandingPage';
+import Wrapper from '../components/wrappers/LandingPage';
 import mainSvg from '../assets/images/main.svg';
 import { Link } from 'react-router-dom';
 import { Logo } from '../components';

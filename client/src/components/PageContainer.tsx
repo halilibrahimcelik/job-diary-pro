@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import Wrapper from '../assets/wrappers/PageBtnContainer';
+import Wrapper from './wrappers/PageBtnContainer';
 import { useSearchParams } from 'react-router-dom';
 
 type Props = {

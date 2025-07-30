@@ -1,4 +1,4 @@
-import Wrapper from '../assets/wrappers/JobsContainer';
+import Wrapper from './wrappers/JobsContainer';
 import type { IJob } from '../types';
 import Job from './Job';
 

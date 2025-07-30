@@ -1,5 +1,5 @@
-import Wrapper from '../assets/wrappers/Job';
-import JobInfo from '../assets/wrappers/JobInfo';
+import Wrapper from './wrappers/Job';
+import JobInfo from './wrappers/JobInfo';
 import { format } from 'date-fns';
 
 import type { IJob } from '../types';

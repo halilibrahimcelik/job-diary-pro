@@ -1,4 +1,4 @@
-import Wrapper from '../assets/wrappers/BigSidebar';
+import Wrapper from './wrappers/BigSidebar';
 import { useDashboard } from '../hooks/useDashboard';
 import Logo from './Logo';
 import Navlinks from './Navlinks';

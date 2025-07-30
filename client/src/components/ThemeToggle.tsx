@@ -1,4 +1,4 @@
-import Wrapper from '../assets/wrappers/ThemeToggle';
+import Wrapper from './wrappers/ThemeToggle';
 import { BsSunFill, BsFillMoonStarsFill } from 'react-icons/bs';
 import { useDashboard } from '../hooks/useDashboard';
 const ThemeToggle = () => {

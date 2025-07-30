@@ -1,5 +1,5 @@
 import { Outlet, redirect, useNavigation } from 'react-router-dom';
-import Wrapper from '../assets/wrappers/Dashboard';
+import Wrapper from '../components/wrappers/Dashboard';
 import { BigSideBar, Navbar, SmallSideBar } from '../components';
 import { AxiosError } from 'axios';
 import { toast } from 'sonner';

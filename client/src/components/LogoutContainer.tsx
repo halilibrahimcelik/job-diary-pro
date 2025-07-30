@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import Wrapper from '../assets/wrappers/LogoutContainer';
+import Wrapper from './wrappers/LogoutContainer';
 import { FaUserCircle, FaCaretDown } from 'react-icons/fa';
 import { useDashboard } from '../hooks/useDashboard';
 import { useQuery } from '@tanstack/react-query';

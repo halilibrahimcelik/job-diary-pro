@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import Wrapper from '../assets/wrappers/DashboardFormPage';
+import Wrapper from './wrappers/DashboardFormPage';
 import { IoFilter } from 'react-icons/io5';
 import FormRow from './FormRow';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';

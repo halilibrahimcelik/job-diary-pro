@@ -1,8 +1,8 @@
 import { AxiosError } from 'axios';
 import { toast } from 'sonner';
-import CustomWrapper from '../assets/wrappers/StatsContainer';
+import CustomWrapper from '../components/wrappers/StatsContainer';
 import { redirect } from 'react-router-dom';
-import StatItem from '../assets/wrappers/StatItem';
+import StatItem from '../components/wrappers/StatItem';
 import { FiUsers } from 'react-icons/fi';
 import { PiSuitcase } from 'react-icons/pi';
 import { useDashboard } from '../hooks/useDashboard';

@@ -1,6 +1,6 @@
 import { Form, useNavigation } from 'react-router-dom';
 import { FormRow } from '../components';
-import Wrapper from '../assets/wrappers/DashboardFormPage';
+import Wrapper from '../components/wrappers/DashboardFormPage';
 import { AxiosError } from 'axios';
 import { toast } from 'sonner';
 import { useRef, useState } from 'react';

@@ -1,5 +1,5 @@
 import { Form, Link, useNavigate, useNavigation } from 'react-router-dom';
-import Wrapper from '../assets/wrappers/RegisterAndLoginPage';
+import Wrapper from '../components/wrappers/RegisterAndLoginPage';
 import { Logo } from '../components';
 import FormRow from '../components/FormRow';
 import { ROUTES_PATHS } from '../constants';
