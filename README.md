@@ -124,7 +124,7 @@ This application streamlines the job search process by providing a centralized p
 1. Clone the repository
 
    ```bash
-   git clone https://github.com/halilibrahimcelik/job-tacking-app.git
+   git clone https://github.com/halilibrahimcelik/job-diary-pro.git
    cd job-tacking-app
    ```
 
