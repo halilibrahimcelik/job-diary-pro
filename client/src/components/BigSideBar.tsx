@@ -1,6 +1,6 @@
 import Wrapper from './wrappers/BigSidebar';
 import { useDashboard } from '../hooks/useDashboard';
-import Logo from './Logo';
+import Logo from './ui/Logo';
 import Navlinks from './Navlinks';
 
 const BigSideBar: React.FC = () => {

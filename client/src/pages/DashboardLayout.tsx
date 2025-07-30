@@ -4,7 +4,7 @@ import { BigSideBar, Navbar, SmallSideBar } from '../components';
 import { AxiosError } from 'axios';
 import { toast } from 'sonner';
 import DashboardProvider from '../providers/DashboardContextProvider';
-import LoadingSpinner from '../components/Loading';
+import LoadingSpinner from '../components/ui/Loading';
 import { queryClient } from '../utils/queryClient';
 import { profileQuery } from '../api/queries';
 import { useQuery } from '@tanstack/react-query';

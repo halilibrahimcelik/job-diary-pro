@@ -11,7 +11,7 @@ import {
 import { CgWorkAlt } from 'react-icons/cg';
 import { Link, useSearchParams } from 'react-router-dom';
 import { useState } from 'react';
-import Modal from './Modal';
+import Modal from './ui/Modal';
 import { AxiosError } from 'axios';
 import { toast } from 'sonner';
 import { apiService } from '../api/actions';

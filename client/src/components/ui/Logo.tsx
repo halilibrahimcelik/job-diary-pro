@@ -1,4 +1,4 @@
-import logoSvg from '../assets/images/logo.svg';
+import logoSvg from '../../assets/images/logo.svg';
 
 type Props = {
   alt?: string;

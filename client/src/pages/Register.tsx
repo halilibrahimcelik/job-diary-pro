@@ -1,7 +1,7 @@
 import { Link, Form, useNavigation } from 'react-router-dom';
 import Wrapper from '../components/wrappers/RegisterAndLoginPage';
 import { Logo } from '../components';
-import FormRow from '../components/FormRow';
+import FormRow from '../components/ui/FormRow';
 import { ROUTES_PATHS } from '../constants';
 
 const Register = () => {

@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { Form, useNavigation } from 'react-router-dom';
 import { FormRow } from '../components';
-import FormSelect from '../components/FormSelect';
+import FormSelect from './ui/FormSelect';
 import Wrapper from './wrappers/DashboardFormPage';
 import { useCompanyInfo, type CompanyInfo } from '../hooks/useCompanyInfo';
 import CompanyUrlInput from './CompanyUrlInput';
