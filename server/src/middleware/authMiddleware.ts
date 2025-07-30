@@ -37,7 +37,13 @@ export const checkTesterRole = (
   res: Response,
   next: NextFunction
 ) => {
-  const { token } = req.cookies;
+  let { token } = req.cookies;
+  if (!token) {
+    const authHeader = req.headers.authorization;
+    if (authHeader && authHeader.startsWith('Bearer ')) {
+      token = authHeader.split(' ')[1];
+    }
+  }
   const { role } = verifyJWT(token);
   if (role === 'tester') {
     throw new ForbiddenError(
