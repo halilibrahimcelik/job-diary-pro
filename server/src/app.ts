@@ -16,40 +16,6 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT;
 
-// //Adding middlewares
-// const allowedOrigins = [
-//   'http://localhost:3000',
-//   'http://localhost:5173', // Vite default port
-//   process.env.CLIENT_URL,
-// ].filter(Boolean); // Remove any undefined values
-
-// const corsOptions = {
-//   origin: function (
-//     origin: string | undefined,
-//     callback: (err: Error | null, allow?: boolean) => void
-//   ) {
-//     // Allow requests with no origin (like mobile apps or curl requests)
-//     if (!origin) return callback(null, true);
-
-//     if (allowedOrigins.includes(origin)) {
-//       callback(null, true);
-//     } else {
-//       callback(new Error('Not allowed by CORS'));
-//     }
-//   },
-//   credentials: true,
-//   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-//   allowedHeaders: ['Content-Type', 'Authorization', 'Cookie'],
-// };
-
-// app.use(
-//   cors({
-//     origin: true, // Allow all origins for now
-//     credentials: true,
-//     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-//     allowedHeaders: ['Content-Type', 'Authorization', 'Cookie'],
-//   })
-// );
 const allowedOrigin =
   process.env.NODE_ENV === 'production'
     ? process.env.CLIENT_URL
@@ -59,7 +25,7 @@ const allowedOrigin =
 app.use((req: Request, res: Response, next: NextFunction) => {
   res.setHeader(
     'Access-Control-Allow-Origin',
-    allowedOrigin || 'https://job-diary-pro.vercel.app'
+    allowedOrigin || 'https://jobdiarypro.vercel.app'
   );
   res.setHeader('Access-Control-Allow-Credentials', 'true');
   res.setHeader(
