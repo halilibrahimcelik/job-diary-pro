@@ -60,12 +60,12 @@ export const uploadUserImage = async (
     }
     const user = await User.findById(req.user?.userId);
     if (!user) {
-      return res.status(StatusCodes.NOT_FOUND).json({
+      res.status(StatusCodes.NOT_FOUND).json({
         message: 'User not found',
       });
     }
     // Delete existing image if present
-    if (user.image) {
+    if (user?.image) {
       try {
         // Extract the key from the existing imageUrl
         const urlParts = user.image.split('.amazonaws.com/');
