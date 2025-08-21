@@ -9,6 +9,10 @@ import axios, {
 class ApiService {
   private axiosInstance: AxiosInstance;
 
+  /**
+   * Creates an instance of ApiService.
+   * @param baseURL - The base URL for all API requests (e.g., 'https://api.example.com/').
+   */
   constructor(baseURL: string) {
     this.axiosInstance = axios.create({
       baseURL,

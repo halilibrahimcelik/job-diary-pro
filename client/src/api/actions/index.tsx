@@ -33,9 +33,13 @@ export const registerAction: ActionFunction = async ({ request }) => {
     }
     return null;
   } catch (error) {
-    console.log(error);
     if (error instanceof AxiosError) {
-      toast.error(error.response?.data.message);
+      if (import.meta.env.VITE_NODE_ENV !== 'production') {
+        console.error(error);
+        toast.error(
+          error.response?.data.message || 'An unexpected error occurred.'
+        );
+      }
       return error.response?.data;
     } else {
       return error;
@@ -53,7 +57,7 @@ export const loginAction: ActionFunction = async ({ request }) => {
     );
     if (response.status === 200) {
       const expiresAt = new Date().getTime() + 24 * 60 * 60 * 1000;
-      localStorage.setItem('authToken', response.data.token);
+      queryClient.invalidateQueries({ queryKey: ['user'] });
       localStorage.setItem('authTokenExpires', expiresAt.toString());
       queryClient.invalidateQueries();
       toast.success(<span> Welcome Back ✨✨✨✨</span>);

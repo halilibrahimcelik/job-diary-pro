@@ -7,7 +7,7 @@ import { verifyJWT } from '../utils/tokenUtils.js';
 
 export const authenticateUser = (
   req: Request,
-  res: Response,
+  _res: Response,
   next: NextFunction
 ) => {
   let { token } = req.cookies;
